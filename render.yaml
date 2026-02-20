@@ -8,9 +8,4 @@ services:
     healthCheckPath: /healthz
     envVars:
       - key: DATABASE_URL
-        value: sqlite:////data/jobs_automation.db
-    disk:
-      name: career-huntin-data
-      mountPath: /data
-      sizeGB: 1
-
+        value: sqlite:///./jobs_automation.db
