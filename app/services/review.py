@@ -99,6 +99,8 @@ def apply_batch_decisions(
             plan.deferred_count += 1
 
     batch.status = "decided"
+    # Session has autoflush=False, so persist plan items before execution queries.
+    db.flush()
     log_event(
         db,
         entity_type="review_batch",
@@ -112,4 +114,3 @@ def apply_batch_decisions(
         },
     )
     return plan
-
