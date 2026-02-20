@@ -1,0 +1,2 @@
+"""Job automation MVP package."""
+

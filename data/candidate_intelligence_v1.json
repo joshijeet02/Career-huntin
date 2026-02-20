@@ -1,0 +1,282 @@
+{
+  "version": "1.0",
+  "generated_at": "2026-02-20",
+  "candidate_profile": {
+    "full_name": "Jeet Joshi",
+    "location": "Ahmedabad, India",
+    "citizenship": [
+      "India"
+    ],
+    "work_authorization": [
+      "India"
+    ],
+    "start_availability": "Immediate",
+    "notice_period": "None",
+    "salary_floor_inr_lpa": 25,
+    "salary_preference_note": "Apply only to high-paying roles above INR 25 LPA in India or PPP-equivalent internationally, except selected multilaterals.",
+    "relocation_preferences": {
+      "open_to_relocate": true,
+      "open_to_relocate_within_india": true,
+      "preferred_india_cities": [
+        "Mumbai",
+        "Gurugram",
+        "Bangalore",
+        "Chennai",
+        "Hyderabad"
+      ],
+      "preferred_regions": [
+        "United States",
+        "United Kingdom",
+        "Singapore",
+        "Germany",
+        "Sweden",
+        "Switzerland",
+        "Luxembourg",
+        "Norway",
+        "Italy",
+        "High-income Europe",
+        "Australia",
+        "South Korea",
+        "Dubai",
+        "Cape Town"
+      ],
+      "requires_visa_sponsorship": true,
+      "avoid_regions_note": "No desire to relocate to Muslim countries except Dubai."
+    },
+    "education": [
+      {
+        "degree": "Master of Economics (Financial Economics)",
+        "institution": "The University of Sydney",
+        "start": "2023-07",
+        "end": "2025-06",
+        "evidence_confidence": "high"
+      },
+      {
+        "degree": "Bachelor of Science in Economics",
+        "institution": "Gokhale Institute of Politics and Economics (GIPE), Pune",
+        "start": "2020-08",
+        "end": "2023-05",
+        "cgpa": "8.77/10",
+        "evidence_confidence": "high"
+      }
+    ],
+    "skills_verified": {
+      "economics_policy": [
+        "Economic analysis",
+        "Policy research",
+        "Budget/public finance analysis",
+        "Institutional economics",
+        "Impact evaluation (DiD)"
+      ],
+      "quant_analytics": [
+        "Econometrics",
+        "Financial modeling",
+        "Market research",
+        "Panel data analysis"
+      ],
+      "tools": [
+        "R",
+        "Stata",
+        "Excel",
+        "Tableau",
+        "MATLAB"
+      ],
+      "ai_related": [
+        "AI automation workflows",
+        "LLM implementation",
+        "Voice agents",
+        "Multimodal AI systems"
+      ]
+    },
+    "experience_verified": [
+      {
+        "role": "Program Fellow - Research & Capacity Building",
+        "organization": "Alliance for Change",
+        "location": "Ahmedabad",
+        "period": "2025-07 to Present"
+      },
+      {
+        "role": "Impact Finance Intern / Research Intern - Economic Strategy",
+        "organization": "Dorian Scale",
+        "location": "Remote",
+        "period": "2024-12 to 2025-08"
+      },
+      {
+        "role": "Research Intern - Policy & Budget Analysis",
+        "organization": "Centre for Budget and Governance Accountability (CBGA)",
+        "location": "New Delhi",
+        "period": "2021-06 to 2021-10"
+      },
+      {
+        "role": "Field Investigator",
+        "organization": "GIPE Centre for Excellence in Entrepreneurship",
+        "location": "Leh-Ladakh",
+        "period": "2022-04 to 2022-09"
+      },
+      {
+        "role": "Founding Team Member",
+        "organization": "thinkO News",
+        "location": "Remote",
+        "period": "2025-07 to 2025-11"
+      }
+    ],
+    "evidence_metrics_verified": [
+      "Newsletter reached 3,000+ monthly readers.",
+      "Documented 100+ stakeholder/entrepreneur interviews in Leh-Ladakh fieldwork.",
+      "Authored civil society landscape report across six Indian states.",
+      "Macro trading simulation reported 243% simulated return with Sharpe > 2.0.",
+      "LinkedIn post dataset (10 posts) shows aggregate likes 3,452; top post 3,089 likes, 156 comments, 347 shares."
+    ],
+    "thought_leadership": [
+      "Chai with an Economist (newsletter/blog)",
+      "Published in Takshashila Pulliyabaazi (English and Hindi)",
+      "UN ECOSOC contributor (2018, 2019)"
+    ]
+  },
+  "target_roles": {
+    "primary_intent": [
+      "Economist",
+      "Economics + AI intersection roles",
+      "Consulting roles with economics/business strategy orientation",
+      "Venture capital and venture platform roles"
+    ],
+    "priority_employer_types": [
+      "Consulting firms",
+      "Big Four",
+      "Venture capital funds",
+      "VC portfolio companies",
+      "High-paying startups",
+      "High-paying corporates",
+      "Think tanks (outside India or high-paying in India)",
+      "Multilaterals (World Bank, UN, ADB, IMF)"
+    ], 
+    "company_size_preference": "No preference if compensation and fit criteria are met"
+  },
+  "application_policy": {
+    "strategy": "Quality-first, high-compensation filter first",
+    "preferred_seniority": [
+      "Associate",
+      "Analyst",
+      "Graduate"
+    ],
+    "capacity_mode": "maximize_throughput_with_quality_guardrails",
+    "must_have": [
+      "Compensation floor met (except selected multilateral opportunities)",
+      "Role uses economics as core capability"
+    ],
+    "bonus_signals": [
+      "Economics + AI intersection",
+      "Clear growth path and sponsorship support"
+    ],
+    "hard_filters": [
+      "Reject low-paying opportunities below floor unless multilateral exception applies"
+    ],
+    "salary_exceptions": [
+      "International Monetary Fund (IMF)",
+      "World Bank",
+      "Asian Development Bank (ADB)",
+      "United Nations (UN)"
+    ]
+  },
+  "outreach_policy": {
+    "target_people": [
+      "Hiring managers",
+      "Recruiters",
+      "Practice leaders",
+      "Decision-makers in economics/strategy/policy teams",
+      "Partners",
+      "Founders"
+    ],
+    "targeting_rule": "Prioritize people associated with high-paying roles and sponsorship-capable employers.",
+    "auto_follow_up_enabled": true
+  },
+  "execution_preferences": {
+    "approval_model": "single-policy-approval-then-auto-execute",
+    "written_approval_received": true,
+    "channels_requested": [
+      "LinkedIn",
+      "Email",
+      "Company careers pages",
+      "Other job sites"
+    ],
+    "schedule_ist": {
+      "discovery": "08:00",
+      "outreach": "11:00",
+      "follow_up_rule": "follow-ups are never sent on the same day as first outreach"
+    },
+    "geography_priority_order": [
+      "Mumbai",
+      "Gurugram",
+      "Bangalore",
+      "International"
+    ],
+    "international_priority_order": [
+      "United States",
+      "London",
+      "Dubai",
+      "Singapore",
+      "Australia",
+      "Germany",
+      "Switzerland",
+      "Sweden",
+      "Luxembourg",
+      "Norway",
+      "Italy",
+      "Rest of high-income countries"
+    ],
+    "tracking": {
+      "google_sheets_required": true
+    },
+    "job_source_priority": [
+      "Company career pages (direct)",
+      "Wellfound",
+      "Y Combinator Work at a Startup",
+      "Built In",
+      "Venture Capital Careers",
+      "Devex",
+      "Impactpool",
+      "World Bank careers",
+      "IMF recruitment",
+      "UN Careers Portal",
+      "ADB Consultant Management System"
+    ],
+    "remote_high_pay_sources": [
+      "Wellfound",
+      "We Work Remotely",
+      "Remote OK",
+      "Himalayas",
+      "Remotive",
+      "FlexJobs",
+      "The Ladders"
+    ],
+    "venture_capital_sources": [
+      "Venture Capital Careers",
+      "Wellfound VC role pages",
+      "VC fund career pages",
+      "VC portfolio job boards (e.g., General Catalyst jobs)"
+    ],
+    "follow_up_policy": {
+      "same_day_follow_up_allowed": false
+    }
+  },
+  "unknown_or_needs_confirmation": [
+    "Ideal target salary per geography",
+    "Exact weekly application capacity",
+    "Exact weekly networking outreach capacity",
+    "Cold outreach comfort threshold for very senior executives",
+    "Preferred seniority band (Graduate vs Analyst vs Associate) as strict rule"
+  ],
+  "provenance": {
+    "source_files": [
+      "/Users/jeetjoshi/Documents/Career_Job_Applications/Resumes_CVs/Jeet_Joshi_CV_KPMG.docx",
+      "/Users/jeetjoshi/Documents/Career_Job_Applications/Resumes_CVs/Jeet Joshi CV EY Policy Advisory.docx",
+      "/Users/jeetjoshi/Documents/Career_Job_Applications/Resumes_CVs/Jeet_Joshi_CV_IIMA Ventures.docx",
+      "/Users/jeetjoshi/Documents/Career_Job_Applications/Resumes_CVs/Jeet_Joshi_Economic_Affairs_Analyst_CV.docx",
+      "/Users/jeetjoshi/Documents/Career_Job_Applications/Resumes_CVs/Resume-Jeet_Joshi.docx",
+      "/Users/jeetjoshi/Documents/Career_Job_Applications/Resumes_CVs/Jeet_Joshi_CV2025.docx",
+      "/Users/jeetjoshi/Documents/Career_Job_Applications/Resumes_CVs/JEET_JOSHI-CV.docx",
+      "/Users/jeetjoshi/Downloads/dataset_linkedin-post_2026-02-20_14-17-07-550.json"
+    ],
+    "note": "Only evidence-backed claims were included; conflicting date variants kept at month/year level."
+  }
+}
