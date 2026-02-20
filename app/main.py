@@ -228,6 +228,16 @@ def tracking_snapshot_path() -> dict[str, str | bool]:
     return {"exists": TRACKING_PATH.exists(), "path": str(TRACKING_PATH)}
 
 
+@app.get("/")
+def root() -> dict[str, str]:
+    return {"message": "Job automation service is running", "dashboard": "/dashboard"}
+
+
+@app.get("/healthz")
+def healthz() -> dict[str, str]:
+    return {"status": "ok"}
+
+
 @app.get("/dashboard/data", response_model=DashboardDataResponse)
 def dashboard_data(
     source: str | None = Query(default=None),

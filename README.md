@@ -18,6 +18,27 @@ pip install -r requirements.txt
 uvicorn app.main:app --reload
 ```
 
+## Deploy (Live)
+
+### Render (recommended)
+
+1. Push this repo to GitHub (already done).
+2. Go to Render Dashboard -> New -> Blueprint.
+3. Select your repo: `joshijeet02/Career-huntin`.
+4. Render will detect `render.yaml` and create the web service.
+5. After deploy, open:
+   - `/dashboard` for the UI
+   - `/healthz` for health check
+
+Notes:
+- The app uses SQLite with a persistent disk at `/data` on Render.
+- `DATABASE_URL` is set to `sqlite:////data/jobs_automation.db` in `render.yaml`.
+
+### Railway / Other platforms
+
+- `Dockerfile` and `Procfile` are included.
+- Start command: `uvicorn app.main:app --host 0.0.0.0 --port $PORT`
+
 ## Test
 
 ```bash
