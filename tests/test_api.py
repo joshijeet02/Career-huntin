@@ -138,3 +138,23 @@ def test_autonomous_daily_orchestrator_run() -> None:
     assert dashboard_ui.status_code == 200
     assert "Job Ops Command Deck" in dashboard_ui.text
     assert "Top Targets (VC / Consulting / High-Pay)" in dashboard_ui.text
+
+
+def test_apply_now_action_executes_single_job() -> None:
+    client = setup_test_client()
+    seed_profile(client)
+    discover = client.post("/jobs/discover/run", json={"source_config_id": "apply-now"})
+    assert discover.status_code == 200
+
+    dash = client.get("/dashboard/data")
+    assert dash.status_code == 200
+    queue = dash.json()["queue_preview"]
+    assert queue
+    job_id = queue[0]["job_id"]
+
+    apply_response = client.post(f"/actions/apply-now/{job_id}")
+    assert apply_response.status_code == 200
+    payload = apply_response.json()
+    assert payload["job_id"] == job_id
+    assert len(payload["results"]) == 2
+    assert all(item["status"] == "success" for item in payload["results"])

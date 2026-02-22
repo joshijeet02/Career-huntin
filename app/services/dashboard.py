@@ -169,12 +169,14 @@ def collect_dashboard_data(
             continue
         queue_preview.append(
             {
+                "job_id": job.id,
                 "company": job.company,
                 "title": job.title,
                 "location": job.location,
                 "score": job.relevance_score,
                 "source": job.source,
                 "status": item.status,
+                "apply_url": job.apply_url,
             }
         )
 
@@ -184,12 +186,14 @@ def collect_dashboard_data(
             continue
         top_targets.append(
             {
+                "job_id": job.id,
                 "company": job.company,
                 "title": job.title,
                 "location": job.location,
                 "score": job.relevance_score,
                 "source": job.source,
                 "status": job.status,
+                "apply_url": job.apply_url,
             }
         )
     top_targets.sort(key=lambda x: x["score"], reverse=True)

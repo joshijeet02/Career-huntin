@@ -8,6 +8,7 @@ from app.models import (
     ApplicationDraft,
     CVVariant,
     CandidateProfile,
+    JobRecord,
     OutreachDraft,
     ReviewBatch,
     ReviewBatchItem,
@@ -27,12 +28,14 @@ from app.schemas import (
     ReviewBatchDecisionResponse,
     ReviewBatchOut,
     ExecutionPlanRunResponse,
+    QuickApplyResponse,
 )
 from app.services.analytics import funnel
 from app.services.discovery import run_discovery
 from app.services.personalization import generate_drafts_and_batch
 from app.services.review import apply_batch_decisions
 from app.services.execution import execute_plan
+from app.services.execution import approve_and_execute_batch_item
 from app.services.audit import log_event
 from app.services.dashboard import collect_dashboard_data
 from app.services.orchestrator import run_daily_cycle
@@ -200,6 +203,33 @@ def execute(plan_id: int, db: Session = Depends(get_db)) -> ExecutionPlanRunResp
         raise HTTPException(status_code=404, detail=str(exc)) from exc
     db.commit()
     return ExecutionPlanRunResponse(plan_id=plan.id, status=plan.status, items=results)
+
+
+@app.post("/actions/apply-now/{job_id}", response_model=QuickApplyResponse)
+def apply_now(job_id: int, db: Session = Depends(get_db)) -> QuickApplyResponse:
+    batch_item = db.scalar(
+        select(ReviewBatchItem)
+        .where(ReviewBatchItem.job_id == job_id)
+        .order_by(ReviewBatchItem.created_at.desc(), ReviewBatchItem.id.desc())
+        .limit(1)
+    )
+    if batch_item is None:
+        raise HTTPException(status_code=404, detail="No review item found for this job")
+    try:
+        plan, results = approve_and_execute_batch_item(db, batch_item.id)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    job = db.get(JobRecord, batch_item.job_id)
+    if job is None:
+        raise HTTPException(status_code=404, detail="Job not found")
+    db.commit()
+    return QuickApplyResponse(
+        execution_plan_id=plan.id,
+        job_id=job.id,
+        company=job.company,
+        title=job.title,
+        results=results,
+    )
 
 
 @app.get("/analytics/funnel", response_model=AnalyticsFunnelResponse)
@@ -407,7 +437,7 @@ def dashboard() -> str:
       <section class="card">
         <h2>Top Targets (VC / Consulting / High-Pay)</h2>
         <table>
-          <thead><tr><th>Company</th><th>Role</th><th>Location</th><th>Score</th><th>Source</th></tr></thead>
+          <thead><tr><th>Company</th><th>Role</th><th>Location</th><th>Score</th><th>Source</th><th>Actions</th></tr></thead>
           <tbody id="top-targets"></tbody>
         </table>
       </section>
@@ -432,7 +462,7 @@ def dashboard() -> str:
       <section class="card">
         <h2>Pending Review Queue</h2>
         <table>
-          <thead><tr><th>Company</th><th>Role</th><th>Location</th><th>Score</th><th>Source</th></tr></thead>
+          <thead><tr><th>Company</th><th>Role</th><th>Location</th><th>Score</th><th>Source</th><th>Actions</th></tr></thead>
           <tbody id="queue"></tbody>
         </table>
       </section>
@@ -453,6 +483,16 @@ async function runDaily() {
     headers: {"content-type":"application/json"},
     body: JSON.stringify({source_config_id: "dashboard-trigger"})
   });
+  await refresh();
+}
+
+async function applyNow(jobId) {
+  const res = await fetch(`/actions/apply-now/${jobId}`, { method: "POST" });
+  const body = await res.json();
+  if (!res.ok) {
+    alert(body.detail || "Apply failed");
+    return;
+  }
   await refresh();
 }
 
@@ -493,8 +533,18 @@ async function refresh() {
   `).join("") || "<div class='sub'>No jobs yet.</div>";
 
   document.getElementById("top-targets").innerHTML = (data.top_targets || []).map(row => `
-    <tr><td>${esc(row.company)}</td><td>${esc(row.title)}</td><td>${esc(row.location)}</td><td>${row.score}</td><td>${esc(row.source)}</td></tr>
-  `).join("") || "<tr><td colspan='5'>No top targets for current filters.</td></tr>";
+    <tr>
+      <td>${esc(row.company)}</td>
+      <td>${esc(row.title)}</td>
+      <td>${esc(row.location)}</td>
+      <td>${row.score}</td>
+      <td>${esc(row.source)}</td>
+      <td>
+        <a href="${esc(row.apply_url)}" target="_blank" rel="noreferrer">Open</a>
+        <button style="margin-left:6px;padding:6px 8px;font-size:11px" onclick="applyNow(${row.job_id})">Apply Now</button>
+      </td>
+    </tr>
+  `).join("") || "<tr><td colspan='6'>No top targets for current filters.</td></tr>";
 
   document.getElementById("followups").innerHTML = (data.followups || []).map(row => `
     <tr><td>${fmt(row.due_at)}</td><td>${esc(row.company)}</td><td>${esc(row.title)}</td><td>${esc(row.channel)}</td></tr>
@@ -505,8 +555,18 @@ async function refresh() {
   `).join("") || "<tr><td colspan='4'>No execution events yet.</td></tr>";
 
   document.getElementById("queue").innerHTML = (data.queue_preview || []).map(row => `
-    <tr><td>${esc(row.company)}</td><td>${esc(row.title)}</td><td>${esc(row.location)}</td><td>${row.score}</td><td>${esc(row.source)}</td></tr>
-  `).join("") || "<tr><td colspan='5'>No queue items.</td></tr>";
+    <tr>
+      <td>${esc(row.company)}</td>
+      <td>${esc(row.title)}</td>
+      <td>${esc(row.location)}</td>
+      <td>${row.score}</td>
+      <td>${esc(row.source)}</td>
+      <td>
+        <a href="${esc(row.apply_url)}" target="_blank" rel="noreferrer">Open</a>
+        <button style="margin-left:6px;padding:6px 8px;font-size:11px" onclick="applyNow(${row.job_id})">Apply Now</button>
+      </td>
+    </tr>
+  `).join("") || "<tr><td colspan='6'>No queue items.</td></tr>";
 }
 
 refresh();

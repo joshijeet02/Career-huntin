@@ -52,6 +52,7 @@ pytest -q
 - `GET /jobs/queue?status=pending_review`
 - `POST /review/batch/{id}/decision`
 - `POST /execute/plan/{id}`
+- `POST /actions/apply-now/{job_id}`
 - `GET /analytics/funnel`
 - `POST /orchestrator/run-daily`
 - `GET /tracking/snapshot-path`

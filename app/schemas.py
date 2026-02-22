@@ -156,12 +156,22 @@ class DashboardFollowUpOut(BaseModel):
 
 
 class DashboardQueueOut(BaseModel):
+    job_id: int
     company: str
     title: str
     location: str
     score: float
     source: str
     status: str
+    apply_url: str
+
+
+class QuickApplyResponse(BaseModel):
+    execution_plan_id: int
+    job_id: int
+    company: str
+    title: str
+    results: list[ExecutionItemResult]
 
 
 class DashboardDataResponse(BaseModel):

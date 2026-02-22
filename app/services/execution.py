@@ -2,10 +2,12 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.models import (
+    ApplicationDraft,
     ExecutionEvent,
     ExecutionPlan,
     ExecutionPlanItem,
     JobRecord,
+    OutreachDraft,
     ReviewBatchItem,
 )
 from app.schemas import ExecutionItemResult
@@ -154,3 +156,59 @@ def execute_plan(db: Session, plan_id: int) -> tuple[ExecutionPlan, list[Executi
     )
     return plan, results
 
+
+def approve_and_execute_batch_item(
+    db: Session, batch_item_id: int
+) -> tuple[ExecutionPlan, list[ExecutionItemResult]]:
+    item = db.get(ReviewBatchItem, batch_item_id)
+    if item is None:
+        raise ValueError("Batch item not found")
+
+    app_draft = db.get(ApplicationDraft, item.application_draft_id)
+    outreach_draft = db.get(OutreachDraft, item.outreach_draft_id)
+    if app_draft is None or outreach_draft is None:
+        raise ValueError("Drafts not found for batch item")
+
+    # Idempotency guard: if already executed successfully, avoid duplicating sends.
+    existing_success = db.scalar(
+        select(ExecutionEvent)
+        .where(ExecutionEvent.job_id == item.job_id, ExecutionEvent.status == "success")
+        .limit(1)
+    )
+    if existing_success:
+        raise ValueError("Job already executed successfully")
+
+    item.status = "approved"
+    app_draft.status = "approved"
+    outreach_draft.status = "approved"
+
+    plan = ExecutionPlan(
+        batch_id=item.batch_id,
+        status="created",
+        approved_count=1,
+        rejected_count=0,
+        deferred_count=0,
+    )
+    db.add(plan)
+    db.flush()
+
+    db.add(
+        ExecutionPlanItem(
+            plan_id=plan.id,
+            batch_item_id=item.id,
+            action="submit_application",
+            channel="job_board",
+            status="approved",
+        )
+    )
+    db.add(
+        ExecutionPlanItem(
+            plan_id=plan.id,
+            batch_item_id=item.id,
+            action="send_outreach",
+            channel="linkedin_email",
+            status="approved",
+        )
+    )
+    db.flush()
+    return execute_plan(db, plan.id)
