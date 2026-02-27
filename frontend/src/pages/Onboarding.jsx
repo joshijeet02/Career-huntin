@@ -66,6 +66,17 @@ export default function Onboarding({ uid, onComplete }) {
       <div style={{ flex: 1, padding: '0 24px 32px', display: 'flex', flexDirection: 'column' }}>
         {loading ? (
           <div className="splash"><div className="spinner" /></div>
+        ) : error && !question ? (
+          <div className="splash" style={{ gap: 16 }}>
+            <div style={{ fontSize: 40 }}>⚠️</div>
+            <div style={{ fontSize: 17, fontWeight: 600, textAlign: 'center' }}>Cannot reach the server</div>
+            <div className="hint" style={{ textAlign: 'center', maxWidth: 280 }}>
+              Make sure your internet is on and try again. If the problem continues, the backend may be starting up (can take ~30 seconds).
+            </div>
+            <button className="btn btn-primary" style={{ marginTop: 8 }} onClick={fetchNext}>
+              Try again
+            </button>
+          </div>
         ) : question ? (
           <>
             <div style={{ marginBottom: 24 }}>

@@ -1,194 +1,246 @@
-# Coach App — Deployment Guide
-## Two iPhones. Zero cost. 15 minutes.
-
-This guide gets the app running on your iPhone and your dad's iPhone as a
-Progressive Web App (PWA) — looks and behaves like a native app on the home screen.
+# Coach App — Deployment Guide (v2)
+### Two iPhones. Zero cost. Step-by-step with screenshots context.
 
 ---
 
-## What you'll do
+## Overview
 
-1. Deploy the **backend** (FastAPI) to Render — it may already be there
-2. Deploy the **frontend** (React PWA) to Vercel — free, takes 3 minutes
-3. Open the URL in Safari on each iPhone → Add to Home Screen
-
----
-
-## Step 1 — Backend on Render
-
-Your backend is already configured. If it's not yet deployed:
-
-1. Go to https://render.com and sign in (or create a free account)
-2. Click **New → Web Service**
-3. Connect your GitHub repo
-4. Settings:
-   - **Build command:** `pip install -r requirements.txt`
-   - **Start command:** `uvicorn app.main:app --host 0.0.0.0 --port $PORT`
-   - **Environment:** Python 3
-   - **Plan:** Free
-5. Add environment variables:
-   - `OPENAI_API_KEY` → your OpenAI key (get from platform.openai.com)
-6. Deploy. Note your URL: `https://your-service-name.onrender.com`
-
-**Test it:** Visit `https://your-service-name.onrender.com/healthz` — should return `{"status":"ok"}`
+| Step | What | Where | Time |
+|------|------|--------|------|
+| 1 | Deploy backend | Render.com | 5 min |
+| 2 | Deploy frontend | Vercel.com | 3 min |
+| 3 | Connect them | Terminal | 1 min |
+| 4 | Install on iPhone | Safari | 2 min |
 
 ---
 
-## Step 2 — Add your backend URL to the frontend
+## Step 1 — Deploy Backend on Render
 
-1. Open the file: `frontend/.env.local`
-2. Replace the URL with your actual Render URL:
-   ```
-   VITE_API_URL=https://your-service-name.onrender.com
-   ```
-3. Save the file.
+### 1a. Create the Web Service
+
+1. Go to [render.com](https://render.com) → sign in → click **New → Web Service**
+2. Click **Connect a repository** → select **Career-huntin**
+3. You'll see a form. Fill it in exactly:
+
+| Field | Value |
+|-------|-------|
+| **Name** | `coach-app` (or anything you like) |
+| **Language** | ⚠️ **Python 3** — change this from "Docker" if needed |
+| **Branch** | `main` |
+| **Build Command** | `pip install -r requirements.txt` |
+| **Start Command** | `uvicorn app.main:app --host 0.0.0.0 --port $PORT` |
+| **Plan** | Free |
+
+> ⚠️ **Important:** Render may auto-select "Docker" because there's a Dockerfile in the repo.
+> You **must change Language to "Python 3"** — the Build/Start command fields only appear after you do this.
+
+### 1b. Add your OpenAI API key
+
+Scroll down to **Environment Variables** and add:
+
+| Key | Value |
+|-----|-------|
+| `OPENAI_API_KEY` | your key from [platform.openai.com/api-keys](https://platform.openai.com/api-keys) |
+
+### 1c. Deploy
+
+Click **Create Web Service**. First build takes ~3-5 minutes.
+
+Your backend URL will be something like: `https://coach-app-xxxx.onrender.com`
+
+### 1d. Test it
+
+Open this in your browser:
+```
+https://coach-app-xxxx.onrender.com/healthz
+```
+You should see: `{"status":"ok"}`
+
+> **Free tier note:** Render sleeps after 15 min of no traffic. The first request after sleep takes ~30 seconds. This is fine for 2 test users.
 
 ---
 
-## Step 3 — Deploy the frontend to Vercel
+## Step 2 — Update the Backend URL in the Frontend
 
-### Option A — Vercel CLI (recommended, 3 commands)
+Your frontend already has a file called `.env.local` with the API URL. There are two ways to update it:
+
+### Option A — Terminal command (easiest, 1 line)
+
+Open **Terminal** on your Mac and run:
 
 ```bash
-# Install Vercel CLI
-npm install -g vercel
-
-# Go to the frontend folder
-cd frontend
-
-# Deploy (follow the prompts — all defaults are fine)
-vercel --prod
+echo 'VITE_API_URL=https://YOUR-RENDER-URL.onrender.com' > "/Users/jeetjoshi/Documents/New project/frontend/.env.local"
 ```
 
-During the prompts:
-- **Set up and deploy?** → Y
-- **Which scope?** → your personal account
-- **Link to existing project?** → N (first time)
-- **Project name?** → `coach-app` (or anything)
-- **Directory?** → `./` (already in frontend)
-- **Override settings?** → N
+Replace `YOUR-RENDER-URL` with your actual Render service name. Example:
+```bash
+echo 'VITE_API_URL=https://coach-app-abc123.onrender.com' > "/Users/jeetjoshi/Documents/New project/frontend/.env.local"
+```
+
+### Option B — Skip this step entirely
+
+If you deploy the frontend via Vercel's website (Step 3, Option B), you can set `VITE_API_URL` as an environment variable in Vercel's dashboard instead — no file editing needed. **This is the easiest approach.**
+
+### Why you can't see .env.local in Finder
+
+The file starts with a dot (`.`), which means Mac hides it by default. To show hidden files in Finder:
+- Press **Cmd + Shift + .** (Command + Shift + Period)
+- Hidden files will now appear greyed out
+- Press the same shortcut again to hide them
+
+---
+
+## Step 3 — Deploy Frontend to Vercel
+
+### Option A — Vercel Website (no command line needed ✅ Recommended)
+
+1. Go to [vercel.com](https://vercel.com) → sign in with GitHub
+2. Click **Add New → Project**
+3. Find and import **Career-huntin** from your GitHub repos
+4. Vercel will auto-detect it. Before clicking Deploy, set:
+   - **Root Directory** → click Edit → type `frontend` → click Continue
+5. Expand **Environment Variables** and add:
+   - Key: `VITE_API_URL`
+   - Value: `https://coach-app-xxxx.onrender.com` (your actual Render URL)
+6. Click **Deploy**
 
 Vercel will give you a URL like: `https://coach-app-xyz.vercel.app`
 
-### Option B — Vercel website (no command line)
+---
 
-1. Go to https://vercel.com and sign in with GitHub
-2. Click **Add New → Project**
-3. Import your GitHub repo
-4. Set **Root Directory** to `frontend`
-5. Add environment variable: `VITE_API_URL` = your Render URL
-6. Click **Deploy**
+### Option B — Terminal (3 commands)
+
+```bash
+# 1. Go to your frontend folder
+cd "/Users/jeetjoshi/Documents/New project/frontend"
+
+# 2. Install Vercel CLI (one-time)
+npm install -g vercel
+
+# 3. Deploy
+npx vercel --prod
+```
+
+Follow the prompts:
+- **Set up and deploy?** → Y
+- **Which scope?** → your personal account
+- **Link to existing project?** → N
+- **Project name?** → `coach-app`
+- **Directory?** → `./` (just press Enter)
+- **Override settings?** → N
 
 ---
 
-## Step 4 — Update CORS on the backend
+## Step 4 — Allow the Frontend to Talk to the Backend (CORS)
 
-After Vercel gives you a URL, add it to the backend so the browser can connect.
+After Vercel gives you a URL, you need to add it to the backend's allowed list.
 
-Open `app/main.py` and find this section (around line 110):
+**Easiest way — Render environment variable (no code change):**
 
-```python
-_CORS_ORIGINS = [
-    "http://localhost:5173",
-    "http://localhost:3000",
-    # Vercel deployments: add your Vercel URL here after first deploy
-    # "https://your-app.vercel.app",
-]
-```
-
-Uncomment and update the Vercel line:
-```python
-    "https://coach-app-xyz.vercel.app",  # ← your actual Vercel URL
-```
-
-Then redeploy the backend on Render (it auto-deploys if connected to GitHub).
-
-**Alternative (no code change):** In Render, add an environment variable:
-- Key: `CORS_ORIGINS`
-- Value: `https://your-vercel-url.vercel.app`
+1. Go to your Render service dashboard
+2. Click **Environment** in the left sidebar
+3. Add a new variable:
+   - Key: `CORS_ORIGINS`
+   - Value: `https://your-app.vercel.app` (your actual Vercel URL)
+4. Click **Save Changes** — Render will auto-redeploy
 
 ---
 
-## Step 5 — Install on your iPhone
+## Step 5 — Install on iPhone
 
-1. Open **Safari** on your iPhone (must be Safari, not Chrome)
+### Your iPhone:
+1. Open **Safari** (must be Safari, not Chrome or Firefox)
 2. Go to your Vercel URL: `https://coach-app-xyz.vercel.app`
-3. Tap the **Share** button (box with arrow at the bottom)
-4. Scroll down and tap **"Add to Home Screen"**
+3. Tap the **Share** button at the bottom (box with an arrow pointing up)
+4. Scroll down in the share sheet and tap **"Add to Home Screen"**
 5. Name it **"Coach"** → tap **Add**
 
 The app icon now appears on your home screen. Tap it — it opens full-screen, no browser bar.
 
-**For your dad's iPhone:**
+### Dad's iPhone:
 - Send him the Vercel URL via WhatsApp
-- He opens it in Safari and follows the same steps (Share → Add to Home Screen)
-- His account is separate — the app gives each device its own user ID automatically
+- He opens it in **Safari** and does the same steps (Share → Add to Home Screen)
+- His profile is completely separate — he gets his own user ID automatically
 
 ---
 
-## Step 6 — First launch
+## Step 6 — First Time Using the App
 
-When you first open the app, it will:
-1. Ask you ~12 onboarding questions (takes about 5 minutes)
-2. Build your coach profile
-3. Generate your **First Read** — a personality synthesis (appears on the dashboard)
+When you open it for the first time:
+1. You'll go through ~12 onboarding questions (about 5 minutes)
+2. The app builds your coach profile
+3. Your **First Read** (a personality synthesis) appears on the dashboard after onboarding
 
-Your dad does the same when he opens it on his phone.
-
----
-
-## User IDs
-
-Each device gets its own user ID stored locally. This means:
-- Your data and dad's data are completely separate
-- If dad clears his browser storage, he'll start a new profile
-- You can find your user ID in the browser: Settings → Developer → Local Storage → `coach_user_id`
+Your dad does the same flow separately on his phone.
 
 ---
 
 ## Troubleshooting
 
-**"Cannot connect to backend"**
-- Check that the Render service is not sleeping (free tier sleeps after 15min)
-- Visit the Render URL directly in a browser to wake it up
-- The first request after sleep takes ~30 seconds
+**"Cannot connect" or blank screen**
+- Your Render URL in `.env.local` or Vercel env var might be wrong — double-check it has no trailing slash
+- Visit `https://your-render-url.onrender.com/healthz` in a browser to test the backend directly
 
-**"Onboarding keeps failing"**
-- Check that `VITE_API_URL` in `.env.local` matches your actual Render URL exactly
-- Make sure there's no trailing slash in the URL
+**Render is showing Docker, not Python 3**
+- On the Render New Web Service form, click the **Language** dropdown (it says "Docker") and change it to **Python 3**
+- The Build Command and Start Command fields will appear below after you switch
 
-**"App doesn't update after I redeploy"**
-- Close the app from the app switcher, reopen it
-- Or: Settings → Safari → Clear History and Website Data (last resort)
+**Backend takes 30 seconds on first request**
+- Normal on the free tier — Render sleeps after 15 min of inactivity
+- Just wait for it to wake up; all subsequent requests are fast
+
+**Can't find .env.local in Finder**
+- It's a hidden file. Press **Cmd + Shift + .** in Finder to show hidden files
+- Or use the Terminal command in Step 2 Option A — it's one line and much easier
+
+**"Add to Home Screen" not showing in Safari**
+- Make sure you're using Safari (not Chrome)
+- The option is in the Share sheet — scroll down past the top row of icons
+
+**App doesn't update after redeployment**
+- Close the app fully from the app switcher
+- Reopen it — it will fetch the latest version automatically
 
 ---
 
-## Development (local testing on Mac)
+## Local Development (testing on your Mac)
 
 ```bash
-# Terminal 1 — backend
-cd "New project"
+# Terminal 1 — start the backend
+cd "/Users/jeetjoshi/Documents/New project"
 pip install -r requirements.txt
 uvicorn app.main:app --reload
 
-# Terminal 2 — frontend
-cd "New project/frontend"
+# Terminal 2 — start the frontend
+cd "/Users/jeetjoshi/Documents/New project/frontend"
 npm install
 npm run dev
 ```
 
-Then open http://localhost:5173 in your browser.
+Open [http://localhost:5173](http://localhost:5173) in your browser.
 
 ---
 
-## Cost summary
+## Cost Summary
 
 | Service | Plan | Cost |
 |---------|------|------|
-| Render (backend) | Free | $0 |
-| Vercel (frontend) | Free | $0 |
-| OpenAI API | Pay-per-use | ~$0.01-0.10/day for 2 users |
-| Apple Developer | Not needed | $0 |
-| **Total** | | **~$1-3/month** |
+| Render (backend) | Free | $0/month |
+| Vercel (frontend) | Free | $0/month |
+| OpenAI API | Pay-per-use | ~$0.01–0.10/day for 2 users |
+| Apple Developer Account | Not needed (PWA) | $0 |
+| **Total** | | **~$1–3/month** |
 
-When you're ready to go to paid users, upgrade Render to the $7/month plan (no more sleep) and keep Vercel free.
+When you're ready to launch publicly, upgrade Render to the **$7/month Starter plan** — no more sleep delays.
+
+---
+
+## Quick Reference — Your URLs
+
+Fill these in once you have them:
+
+| Thing | URL |
+|-------|-----|
+| Backend (Render) | `https://________________.onrender.com` |
+| Frontend (Vercel) | `https://________________.vercel.app` |
+| Backend health check | `https://________________.onrender.com/healthz` |
