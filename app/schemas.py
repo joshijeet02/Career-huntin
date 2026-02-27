@@ -8,7 +8,8 @@ from pydantic import BaseModel, Field
 
 class OnboardingStepRequest(BaseModel):
     user_id: str
-    step: int
+    question_key: str = ""
+    step: int = -1          # optional — server uses profile.onboarding_step instead
     answer: str
     session_id: str = "onboarding"
 

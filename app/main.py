@@ -184,14 +184,16 @@ def onboarding_question(
     q = get_next_question(profile.onboarding_step)
     if q is None:
         return {"complete": True, "message": "Onboarding already complete."}
-    text = q["question"]
-    if q.get("hint"):
-        text += f"\n\nHint: {q['hint']}"
     return {
         "complete": False,
         "step": profile.onboarding_step,
         "total_steps": TOTAL_STEPS,
-        "question": text,
+        "question_text": q["question"],
+        "hint": q.get("hint", ""),
+        "question_key": q["field"],
+        "options": q.get("options", []),
+        "input_type": q.get("input_type", "multiline"),
+        "placeholder": q.get("placeholder", "Type your answer…"),
     }
 
 
@@ -202,17 +204,14 @@ def onboarding_answer(
     profile = get_or_create_profile(db, payload.user_id)
     if profile.onboarding_complete:
         raise HTTPException(status_code=400, detail="Onboarding already complete.")
-    if payload.step != profile.onboarding_step:
-        raise HTTPException(
-            status_code=400,
-            detail=f"Step mismatch. Expected {profile.onboarding_step}, got {payload.step}.",
-        )
+    # Always use the server-side step — ignore any step sent by the client
+    current_step = profile.onboarding_step
     next_q, complete, summary = process_onboarding_step(
-        db, payload.user_id, payload.step, payload.answer
+        db, payload.user_id, current_step, payload.answer
     )
     return OnboardingStepResponse(
         next_question=next_q,
-        step=payload.step + 1,
+        step=current_step + 1,
         total_steps=TOTAL_STEPS,
         complete=complete,
         profile_summary=summary,
