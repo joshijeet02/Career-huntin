@@ -107,8 +107,8 @@ app = FastAPI(
 _CORS_ORIGINS = [
     "http://localhost:5173",
     "http://localhost:3000",
-    # Vercel deployments: add your Vercel URL here after first deploy
-    # "https://your-app.vercel.app",
+    "https://career-huntin.vercel.app",
+    "https://career-huntin-git-main-joshijeet02.vercel.app",
 ]
 # Also allow any origin specified via env var (for production flexibility)
 _extra = os.getenv("CORS_ORIGINS", "")
