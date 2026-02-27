@@ -1,0 +1,575 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		07A8442D68A14F9D5379EA2B /* CoreModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D710C08BF2CD009D5C6B703 /* CoreModels.swift */; };
+		1497526BBC5135AF8B7C4BFD /* CoachConversationModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CE0EC715A3E6B9C3D992991 /* CoachConversationModels.swift */; };
+		14FE3DFF3766F868E9121897 /* CoachConsoleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D68374ADF49A782C71F9EDD0 /* CoachConsoleView.swift */; };
+		181B2485CC6A2D5D721E0FC7 /* CopilotViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA948C443A4292388A6046E /* CopilotViewModel.swift */; };
+		1B9FB2315DBA0BB091F76789 /* AppContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EBF5B0C76C3C0A2C64E430E /* AppContainer.swift */; };
+		1CACA20261628B35D48F72DF /* JayeshCoachAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6C33E9907A4D0A3A438490 /* JayeshCoachAppTests.swift */; };
+		22A2F09811D8BFF0B2C41197 /* ScheduleModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3031655325D570AC56ACD08 /* ScheduleModels.swift */; };
+		2B5B12536ECBBC8697A3442F /* HabitLabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8ACAEA325DCF76D73A85DD /* HabitLabView.swift */; };
+		308D98025A78053EDE3BABAA /* ScheduleIntelligence.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43E5F0F75D55E67EFB4FBE9 /* ScheduleIntelligence.swift */; };
+		3D5239AEBF6374ACF37E6569 /* SeedProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36B4DD27BD543C865FFA528 /* SeedProfile.swift */; };
+		3E2B247DD9CF0E47B501CCCD /* CoachConversationClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DB259E62C641ADFFDFE660 /* CoachConversationClient.swift */; };
+		4A1C60DD2D8B13C69DB767D7 /* LocalStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07228F4118C5B23C1ABF94D7 /* LocalStore.swift */; };
+		4BC7FA881D2BE21E48A7F14B /* RootTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B92826342EC55FA86864784 /* RootTabView.swift */; };
+		532298083807A60AD0F34CD0 /* BurnoutSentinel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CEA022393C33D6D2AEC88E9 /* BurnoutSentinel.swift */; };
+		5749AEDD528D2692AC82D407 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2FDA1991677018ABB8E59D /* DashboardView.swift */; };
+		62715D83860EC2D3489A4582 /* JayeshCoachAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 870C6527B92FCE58F3E297D7 /* JayeshCoachAppApp.swift */; };
+		661F1D6BBB4C6BE750924290 /* AIOrchestrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF336E095E3003298E8D7ED /* AIOrchestrator.swift */; };
+		6DAA4ADB802C302F88E04FE3 /* CoachConsoleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB05504D63C4D66F2E9CD2E4 /* CoachConsoleViewModel.swift */; };
+		7064176D911C04DDC1493941 /* CalendarService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08A0669238D9890AF1530CB /* CalendarService.swift */; };
+		73E3CDBB1E56190D2AAF48DA /* CoachTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2221494414B362BB7431318E /* CoachTheme.swift */; };
+		7E2ED6F20654C5B34C5096F7 /* UnifiedCoachEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86ADBC16E8C4A4076E9919FE /* UnifiedCoachEngine.swift */; };
+		7F7156A490A2C1990B5774FC /* DecisionRoomViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FE9E43C19A34D1AD00F7716 /* DecisionRoomViewModel.swift */; };
+		A72BFB036B602B02B4274BEE /* HabitEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5C5841290168A61585F808B /* HabitEngine.swift */; };
+		AE75EBB5E3E6255BE74F7698 /* ReflectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C0253C546B3A03408F5F0F /* ReflectionView.swift */; };
+		B48A5FB9A09969B61278AF0E /* CoachingSystemEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2438D8BEBFB30305B0A2B899 /* CoachingSystemEngine.swift */; };
+		B8A6AD69B1DA5B6D0BAEFEBB /* RelationshipCoachView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A411E667827FFA3BFBF8522 /* RelationshipCoachView.swift */; };
+		BCEFE8FEF7B137BD66BA5EAF /* KeychainStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461DCF8D88EB3898613939B2 /* KeychainStore.swift */; };
+		BEAA49A5B8900BDCC0ED3DDB /* SpeechCoachService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EAAFA225EE0A72D88B39CED /* SpeechCoachService.swift */; };
+		BFC110E0C445CF0BBB1DD951 /* DecisionRoomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A70DAD4AC9015D1732733C0 /* DecisionRoomView.swift */; };
+		CC3A1276C8155BF8E871588A /* HabitLabViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C077F9AD6FBB1A8F3479C14 /* HabitLabViewModel.swift */; };
+		CD2F4012F655A8254D6A5A7E /* ReminderEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 883F1C4441014C9D8E0F66C4 /* ReminderEngine.swift */; };
+		CD348C27B316D6CF115DB960 /* CopilotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC1547E2C794FAF8D96385A /* CopilotView.swift */; };
+		D047FB3A6D75894047F98CDD /* RelationshipEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90C92C4C9F580496FAE56512 /* RelationshipEngine.swift */; };
+		D13EBC80C44CC744A8D69E4A /* DecisionEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF963FD771DFE02454EB4292 /* DecisionEngine.swift */; };
+		D19143CE85CDF59CBBC0990E /* EvolutionMemoryEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50403648D26B5E82F3A3E1D6 /* EvolutionMemoryEngine.swift */; };
+		E6FC3E075E23C9B6DAA3903B /* RelationshipViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79FE10DB12CDE32AFD97917 /* RelationshipViewModel.swift */; };
+		F0C1A084B05D3DA8337C0787 /* DashboardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1EF7F12CE1F1875A607FCB /* DashboardViewModel.swift */; };
+		F0FB2A38661FCB302FDA4ED2 /* CopilotEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 098669A4F55613D65B6CEEDE /* CopilotEngine.swift */; };
+		F4CF8F719C25ACA299AB1949 /* CoachingOperatingModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775350EF6A84E8C88BC9621A /* CoachingOperatingModels.swift */; };
+		FF599E68EFF0071DE5654A4E /* ReflectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F2F0D4AFEA7393E4550FE9 /* ReflectionViewModel.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		49D799C312092AC483544F26 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B3E169D0CCCA83D58848500F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 970C2F94BAFA5883352BD745;
+			remoteInfo = JayeshCoachApp;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		07228F4118C5B23C1ABF94D7 /* LocalStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStore.swift; sourceTree = "<group>"; };
+		098669A4F55613D65B6CEEDE /* CopilotEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopilotEngine.swift; sourceTree = "<group>"; };
+		0AA948C443A4292388A6046E /* CopilotViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopilotViewModel.swift; sourceTree = "<group>"; };
+		0FE9E43C19A34D1AD00F7716 /* DecisionRoomViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecisionRoomViewModel.swift; sourceTree = "<group>"; };
+		1C077F9AD6FBB1A8F3479C14 /* HabitLabViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitLabViewModel.swift; sourceTree = "<group>"; };
+		1CE0EC715A3E6B9C3D992991 /* CoachConversationModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachConversationModels.swift; sourceTree = "<group>"; };
+		2221494414B362BB7431318E /* CoachTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachTheme.swift; sourceTree = "<group>"; };
+		2438D8BEBFB30305B0A2B899 /* CoachingSystemEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachingSystemEngine.swift; sourceTree = "<group>"; };
+		362EC670F60E48E07D8A3C5A /* JayeshCoachApp.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = JayeshCoachApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3B92826342EC55FA86864784 /* RootTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootTabView.swift; sourceTree = "<group>"; };
+		3DD5CAB5AD44A60F277F692A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		4393F1AB6C9178FCBB6712DF /* JayeshCoachAppTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = JayeshCoachAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		461DCF8D88EB3898613939B2 /* KeychainStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainStore.swift; sourceTree = "<group>"; };
+		47C0253C546B3A03408F5F0F /* ReflectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReflectionView.swift; sourceTree = "<group>"; };
+		4C1EF7F12CE1F1875A607FCB /* DashboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewModel.swift; sourceTree = "<group>"; };
+		4CEA022393C33D6D2AEC88E9 /* BurnoutSentinel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BurnoutSentinel.swift; sourceTree = "<group>"; };
+		50403648D26B5E82F3A3E1D6 /* EvolutionMemoryEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvolutionMemoryEngine.swift; sourceTree = "<group>"; };
+		5BC1547E2C794FAF8D96385A /* CopilotView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopilotView.swift; sourceTree = "<group>"; };
+		5D710C08BF2CD009D5C6B703 /* CoreModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreModels.swift; sourceTree = "<group>"; };
+		6BF336E095E3003298E8D7ED /* AIOrchestrator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIOrchestrator.swift; sourceTree = "<group>"; };
+		6EAAFA225EE0A72D88B39CED /* SpeechCoachService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechCoachService.swift; sourceTree = "<group>"; };
+		775350EF6A84E8C88BC9621A /* CoachingOperatingModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachingOperatingModels.swift; sourceTree = "<group>"; };
+		7A411E667827FFA3BFBF8522 /* RelationshipCoachView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelationshipCoachView.swift; sourceTree = "<group>"; };
+		7A70DAD4AC9015D1732733C0 /* DecisionRoomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecisionRoomView.swift; sourceTree = "<group>"; };
+		81F2F0D4AFEA7393E4550FE9 /* ReflectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReflectionViewModel.swift; sourceTree = "<group>"; };
+		86ADBC16E8C4A4076E9919FE /* UnifiedCoachEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnifiedCoachEngine.swift; sourceTree = "<group>"; };
+		86DB259E62C641ADFFDFE660 /* CoachConversationClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachConversationClient.swift; sourceTree = "<group>"; };
+		870C6527B92FCE58F3E297D7 /* JayeshCoachAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JayeshCoachAppApp.swift; sourceTree = "<group>"; };
+		883F1C4441014C9D8E0F66C4 /* ReminderEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderEngine.swift; sourceTree = "<group>"; };
+		8EBF5B0C76C3C0A2C64E430E /* AppContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppContainer.swift; sourceTree = "<group>"; };
+		8F8ACAEA325DCF76D73A85DD /* HabitLabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitLabView.swift; sourceTree = "<group>"; };
+		90C92C4C9F580496FAE56512 /* RelationshipEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelationshipEngine.swift; sourceTree = "<group>"; };
+		9B2FDA1991677018ABB8E59D /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
+		A3031655325D570AC56ACD08 /* ScheduleModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleModels.swift; sourceTree = "<group>"; };
+		AC6C33E9907A4D0A3A438490 /* JayeshCoachAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JayeshCoachAppTests.swift; sourceTree = "<group>"; };
+		BB05504D63C4D66F2E9CD2E4 /* CoachConsoleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachConsoleViewModel.swift; sourceTree = "<group>"; };
+		C08A0669238D9890AF1530CB /* CalendarService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarService.swift; sourceTree = "<group>"; };
+		C43E5F0F75D55E67EFB4FBE9 /* ScheduleIntelligence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleIntelligence.swift; sourceTree = "<group>"; };
+		C5C5841290168A61585F808B /* HabitEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitEngine.swift; sourceTree = "<group>"; };
+		CF963FD771DFE02454EB4292 /* DecisionEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecisionEngine.swift; sourceTree = "<group>"; };
+		D68374ADF49A782C71F9EDD0 /* CoachConsoleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachConsoleView.swift; sourceTree = "<group>"; };
+		E36B4DD27BD543C865FFA528 /* SeedProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeedProfile.swift; sourceTree = "<group>"; };
+		E79FE10DB12CDE32AFD97917 /* RelationshipViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelationshipViewModel.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		451A61333C90C30C5FDCCEA2 /* JayeshCoachApp */ = {
+			isa = PBXGroup;
+			children = (
+				870C6527B92FCE58F3E297D7 /* JayeshCoachAppApp.swift */,
+				755D00908232F1F8440CA4BB /* Models */,
+				5DD9D1533A63DB6F6F1CAB2D /* Resources */,
+				E383E8037AA9CBFF05E524A1 /* Services */,
+				F55161637F0362D22777BCFA /* ViewModels */,
+				684B5811BE444D25D268D4F1 /* Views */,
+			);
+			path = JayeshCoachApp;
+			sourceTree = "<group>";
+		};
+		5DD9D1533A63DB6F6F1CAB2D /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				3DD5CAB5AD44A60F277F692A /* Info.plist */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		684B5811BE444D25D268D4F1 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				D68374ADF49A782C71F9EDD0 /* CoachConsoleView.swift */,
+				2221494414B362BB7431318E /* CoachTheme.swift */,
+				5BC1547E2C794FAF8D96385A /* CopilotView.swift */,
+				9B2FDA1991677018ABB8E59D /* DashboardView.swift */,
+				7A70DAD4AC9015D1732733C0 /* DecisionRoomView.swift */,
+				8F8ACAEA325DCF76D73A85DD /* HabitLabView.swift */,
+				47C0253C546B3A03408F5F0F /* ReflectionView.swift */,
+				7A411E667827FFA3BFBF8522 /* RelationshipCoachView.swift */,
+				3B92826342EC55FA86864784 /* RootTabView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		755D00908232F1F8440CA4BB /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				1CE0EC715A3E6B9C3D992991 /* CoachConversationModels.swift */,
+				775350EF6A84E8C88BC9621A /* CoachingOperatingModels.swift */,
+				5D710C08BF2CD009D5C6B703 /* CoreModels.swift */,
+				A3031655325D570AC56ACD08 /* ScheduleModels.swift */,
+				E36B4DD27BD543C865FFA528 /* SeedProfile.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		8001B67F6BE917416EAF80A4 = {
+			isa = PBXGroup;
+			children = (
+				451A61333C90C30C5FDCCEA2 /* JayeshCoachApp */,
+				B7BF3066EE1205F6B35CD930 /* JayeshCoachAppTests */,
+				CCFD734699734D4FF4D461E9 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		B7BF3066EE1205F6B35CD930 /* JayeshCoachAppTests */ = {
+			isa = PBXGroup;
+			children = (
+				AC6C33E9907A4D0A3A438490 /* JayeshCoachAppTests.swift */,
+			);
+			path = JayeshCoachAppTests;
+			sourceTree = "<group>";
+		};
+		CCFD734699734D4FF4D461E9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				362EC670F60E48E07D8A3C5A /* JayeshCoachApp.app */,
+				4393F1AB6C9178FCBB6712DF /* JayeshCoachAppTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E383E8037AA9CBFF05E524A1 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				6BF336E095E3003298E8D7ED /* AIOrchestrator.swift */,
+				8EBF5B0C76C3C0A2C64E430E /* AppContainer.swift */,
+				4CEA022393C33D6D2AEC88E9 /* BurnoutSentinel.swift */,
+				C08A0669238D9890AF1530CB /* CalendarService.swift */,
+				86DB259E62C641ADFFDFE660 /* CoachConversationClient.swift */,
+				2438D8BEBFB30305B0A2B899 /* CoachingSystemEngine.swift */,
+				098669A4F55613D65B6CEEDE /* CopilotEngine.swift */,
+				CF963FD771DFE02454EB4292 /* DecisionEngine.swift */,
+				50403648D26B5E82F3A3E1D6 /* EvolutionMemoryEngine.swift */,
+				C5C5841290168A61585F808B /* HabitEngine.swift */,
+				461DCF8D88EB3898613939B2 /* KeychainStore.swift */,
+				07228F4118C5B23C1ABF94D7 /* LocalStore.swift */,
+				90C92C4C9F580496FAE56512 /* RelationshipEngine.swift */,
+				883F1C4441014C9D8E0F66C4 /* ReminderEngine.swift */,
+				C43E5F0F75D55E67EFB4FBE9 /* ScheduleIntelligence.swift */,
+				6EAAFA225EE0A72D88B39CED /* SpeechCoachService.swift */,
+				86ADBC16E8C4A4076E9919FE /* UnifiedCoachEngine.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		F55161637F0362D22777BCFA /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				BB05504D63C4D66F2E9CD2E4 /* CoachConsoleViewModel.swift */,
+				0AA948C443A4292388A6046E /* CopilotViewModel.swift */,
+				4C1EF7F12CE1F1875A607FCB /* DashboardViewModel.swift */,
+				0FE9E43C19A34D1AD00F7716 /* DecisionRoomViewModel.swift */,
+				1C077F9AD6FBB1A8F3479C14 /* HabitLabViewModel.swift */,
+				81F2F0D4AFEA7393E4550FE9 /* ReflectionViewModel.swift */,
+				E79FE10DB12CDE32AFD97917 /* RelationshipViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		970C2F94BAFA5883352BD745 /* JayeshCoachApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 94E0512A51A47B847FFDF63E /* Build configuration list for PBXNativeTarget "JayeshCoachApp" */;
+			buildPhases = (
+				33C418926E60015B66E7D006 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = JayeshCoachApp;
+			packageProductDependencies = (
+			);
+			productName = JayeshCoachApp;
+			productReference = 362EC670F60E48E07D8A3C5A /* JayeshCoachApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+		A6C9EE6D43058A75514A8582 /* JayeshCoachAppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 006937CC98FF3181145DD817 /* Build configuration list for PBXNativeTarget "JayeshCoachAppTests" */;
+			buildPhases = (
+				02F5053C286856213F35EC57 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1ECEB80F3F7880BC73AFCD8E /* PBXTargetDependency */,
+			);
+			name = JayeshCoachAppTests;
+			packageProductDependencies = (
+			);
+			productName = JayeshCoachAppTests;
+			productReference = 4393F1AB6C9178FCBB6712DF /* JayeshCoachAppTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		B3E169D0CCCA83D58848500F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+			};
+			buildConfigurationList = AB68D50E89AF7287D10BE698 /* Build configuration list for PBXProject "JayeshCoachApp" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 8001B67F6BE917416EAF80A4;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				970C2F94BAFA5883352BD745 /* JayeshCoachApp */,
+				A6C9EE6D43058A75514A8582 /* JayeshCoachAppTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		02F5053C286856213F35EC57 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1CACA20261628B35D48F72DF /* JayeshCoachAppTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		33C418926E60015B66E7D006 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				661F1D6BBB4C6BE750924290 /* AIOrchestrator.swift in Sources */,
+				1B9FB2315DBA0BB091F76789 /* AppContainer.swift in Sources */,
+				532298083807A60AD0F34CD0 /* BurnoutSentinel.swift in Sources */,
+				7064176D911C04DDC1493941 /* CalendarService.swift in Sources */,
+				14FE3DFF3766F868E9121897 /* CoachConsoleView.swift in Sources */,
+				6DAA4ADB802C302F88E04FE3 /* CoachConsoleViewModel.swift in Sources */,
+				3E2B247DD9CF0E47B501CCCD /* CoachConversationClient.swift in Sources */,
+				1497526BBC5135AF8B7C4BFD /* CoachConversationModels.swift in Sources */,
+				73E3CDBB1E56190D2AAF48DA /* CoachTheme.swift in Sources */,
+				F4CF8F719C25ACA299AB1949 /* CoachingOperatingModels.swift in Sources */,
+				B48A5FB9A09969B61278AF0E /* CoachingSystemEngine.swift in Sources */,
+				F0FB2A38661FCB302FDA4ED2 /* CopilotEngine.swift in Sources */,
+				CD348C27B316D6CF115DB960 /* CopilotView.swift in Sources */,
+				181B2485CC6A2D5D721E0FC7 /* CopilotViewModel.swift in Sources */,
+				07A8442D68A14F9D5379EA2B /* CoreModels.swift in Sources */,
+				5749AEDD528D2692AC82D407 /* DashboardView.swift in Sources */,
+				F0C1A084B05D3DA8337C0787 /* DashboardViewModel.swift in Sources */,
+				D13EBC80C44CC744A8D69E4A /* DecisionEngine.swift in Sources */,
+				BFC110E0C445CF0BBB1DD951 /* DecisionRoomView.swift in Sources */,
+				7F7156A490A2C1990B5774FC /* DecisionRoomViewModel.swift in Sources */,
+				D19143CE85CDF59CBBC0990E /* EvolutionMemoryEngine.swift in Sources */,
+				A72BFB036B602B02B4274BEE /* HabitEngine.swift in Sources */,
+				2B5B12536ECBBC8697A3442F /* HabitLabView.swift in Sources */,
+				CC3A1276C8155BF8E871588A /* HabitLabViewModel.swift in Sources */,
+				62715D83860EC2D3489A4582 /* JayeshCoachAppApp.swift in Sources */,
+				BCEFE8FEF7B137BD66BA5EAF /* KeychainStore.swift in Sources */,
+				4A1C60DD2D8B13C69DB767D7 /* LocalStore.swift in Sources */,
+				AE75EBB5E3E6255BE74F7698 /* ReflectionView.swift in Sources */,
+				FF599E68EFF0071DE5654A4E /* ReflectionViewModel.swift in Sources */,
+				B8A6AD69B1DA5B6D0BAEFEBB /* RelationshipCoachView.swift in Sources */,
+				D047FB3A6D75894047F98CDD /* RelationshipEngine.swift in Sources */,
+				E6FC3E075E23C9B6DAA3903B /* RelationshipViewModel.swift in Sources */,
+				CD2F4012F655A8254D6A5A7E /* ReminderEngine.swift in Sources */,
+				4BC7FA881D2BE21E48A7F14B /* RootTabView.swift in Sources */,
+				308D98025A78053EDE3BABAA /* ScheduleIntelligence.swift in Sources */,
+				22A2F09811D8BFF0B2C41197 /* ScheduleModels.swift in Sources */,
+				3D5239AEBF6374ACF37E6569 /* SeedProfile.swift in Sources */,
+				BEAA49A5B8900BDCC0ED3DDB /* SpeechCoachService.swift in Sources */,
+				7E2ED6F20654C5B34C5096F7 /* UnifiedCoachEngine.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		1ECEB80F3F7880BC73AFCD8E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 970C2F94BAFA5883352BD745 /* JayeshCoachApp */;
+			targetProxy = 49D799C312092AC483544F26 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		36A7B2CC3C7C88A7D3607160 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = JayeshCoachApp/Resources/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_NAME = "Jayesh Coach";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		9A2E2A6D0A744F8848A8A372 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = org.vaagdhara.jayeshcoach;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.9;
+			};
+			name = Release;
+		};
+		B6F8B5513CAA722D22DDAAB1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = org.vaagdhara.jayeshcoach;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.9;
+			};
+			name = Debug;
+		};
+		C4D775C3133C454BB8AD6433 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/JayeshCoachApp.app/JayeshCoachApp";
+			};
+			name = Release;
+		};
+		D48516AEA5555E56411B0536 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/JayeshCoachApp.app/JayeshCoachApp";
+			};
+			name = Debug;
+		};
+		E5634CA0CF3CF118C74E0388 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = JayeshCoachApp/Resources/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_NAME = "Jayesh Coach";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		006937CC98FF3181145DD817 /* Build configuration list for PBXNativeTarget "JayeshCoachAppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D48516AEA5555E56411B0536 /* Debug */,
+				C4D775C3133C454BB8AD6433 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		94E0512A51A47B847FFDF63E /* Build configuration list for PBXNativeTarget "JayeshCoachApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				36A7B2CC3C7C88A7D3607160 /* Debug */,
+				E5634CA0CF3CF118C74E0388 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		AB68D50E89AF7287D10BE698 /* Build configuration list for PBXProject "JayeshCoachApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B6F8B5513CAA722D22DDAAB1 /* Debug */,
+				9A2E2A6D0A744F8848A8A372 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = B3E169D0CCCA83D58848500F /* Project object */;
+}

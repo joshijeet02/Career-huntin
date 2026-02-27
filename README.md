@@ -1,70 +1,78 @@
-# Job Search Automation MVP
+# Coach App — Personal AI Coaching OS
 
-FastAPI backend implementing a high-automation, batch-approval job search workflow:
+A FastAPI backend for a personalised AI coaching application.
+Users complete a 10-15 minute onboarding interview; every coaching session is then built around their exact profile, goals, and relationships.
 
-- profile + CV ingestion
-- job discovery + dedupe + scoring
-- CV/cover letter/outreach draft generation
-- daily review queue with approve/reject/defer decisions
-- post-approval execution with compliance checks and audit logs
-- funnel analytics
+## Core Features
 
-## Run
+- **Onboarding interview** — 8-question conversational intake that builds a rich user profile
+- **Fully personalised coaching** — every response references the user's actual goals, stressors, and relationships
+- **Multi-turn conversation memory** — encrypted at rest, retention-controlled
+- **Research-backed intelligence** — coaching grounded in published science (PubMed, JAMA, Gottman, WHO)
+- **Premium tier blueprint** — tiered subscription model ready for iOS monetisation
+
+## API Endpoints
+
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | `/onboarding/status` | Check onboarding progress for a user |
+| GET | `/onboarding/question` | Get the current onboarding question |
+| POST | `/onboarding/answer` | Submit answer and advance to next step |
+| GET | `/profile` | Retrieve the completed user profile |
+| POST | `/coach/respond` | Single-turn personalised coaching response |
+| POST | `/coach/conversations/message` | Multi-turn coaching with persistent history |
+| GET | `/coach/conversations/history` | Retrieve conversation history |
+| POST | `/coach/conversations/retention/run` | Purge expired conversations |
+| GET | `/coach/intelligence/brief` | View the coach's current research library |
+| GET | `/coach/premium/tiers` | Subscription tier definitions |
+
+## Run Locally
 
 ```bash
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
+cp .env.example .env
+# Set OPENAI_API_KEY, BACKEND_API_KEY, APP_ENCRYPTION_KEY in .env
 uvicorn app.main:app --reload
 ```
 
-## Deploy (Live)
+Open `/docs` for the interactive API explorer.
 
-### Render (recommended)
+## Onboarding Flow
 
-1. Push this repo to GitHub (already done).
-2. Go to Render Dashboard -> New -> Blueprint.
-3. Select your repo: `joshijeet02/Career-huntin`.
-4. Render will detect `render.yaml` and create the web service.
-5. After deploy, open:
-   - `/dashboard` for the UI
-   - `/healthz` for health check
+1. App calls `GET /onboarding/question?user_id=<id>` to get the first question
+2. User answers; app posts to `POST /onboarding/answer`
+3. Response includes the next question (or `complete: true` after step 8)
+4. On completion, a `profile_summary` is returned to welcome the user personally
+5. All subsequent `/coach/` calls include `user_id` and receive fully personalised responses
 
-Notes:
-- The app uses SQLite with a persistent disk at `/data` on Render.
-- `DATABASE_URL` is set to `sqlite:////data/jobs_automation.db` in `render.yaml`.
+## Architecture
 
-### Railway / Other platforms
+- **Backend**: FastAPI + SQLAlchemy + SQLite (persistent disk on Render)
+- **AI**: OpenAI (gpt-4o-mini default) with local fallback coaching engine
+- **Privacy**: Fernet encryption for all conversation storage
+- **iOS**: SwiftUI app in `/ios/JayeshCoachApp` (TestFlight pipeline planned)
 
-- `Dockerfile` and `Procfile` are included.
-- Start command: `uvicorn app.main:app --host 0.0.0.0 --port $PORT`
+## Deploy on Render
 
-## Test
+1. Push to GitHub
+2. Render Dashboard → New → Blueprint → select repo
+3. Render auto-detects `render.yaml` and creates the service
+4. After deploy: `/docs` for API explorer, `/healthz` for health check
+
+## Environment Variables
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `OPENAI_API_KEY` | Optional | Enables GPT-powered coaching (falls back to local engine if not set) |
+| `BACKEND_API_KEY` | Optional | API key auth for all routes |
+| `APP_ENCRYPTION_KEY` | Required | Fernet key for conversation encryption |
+| `COACH_RETENTION_DAYS` | Optional | Days to retain conversation history (default: 90) |
+| `OPENAI_COACH_MODEL` | Optional | Override OpenAI model (default: gpt-4o-mini) |
+
+## Tests
 
 ```bash
 pytest -q
 ```
-
-## API
-
-- `POST /ingest/profile`
-- `POST /jobs/discover/run`
-- `GET /jobs/queue?status=pending_review`
-- `POST /review/batch/{id}/decision`
-- `POST /execute/plan/{id}`
-- `POST /actions/apply-now/{job_id}`
-- `GET /analytics/funnel`
-- `POST /orchestrator/run-daily`
-- `GET /tracking/snapshot-path`
-- `GET /dashboard`
-- `GET /dashboard/data`
-
-## Notes
-
-- External connectors are intentionally simulated in this MVP.
-- Batch approval is mandatory before execution.
-- Compliance controls include suppression lists, rate limits, and uniqueness checks.
-- Autonomous mode reads `/Users/jeetjoshi/Documents/New project/data/candidate_intelligence_v1.json` and auto-executes only when one-time written approval is enabled there.
-- Tracker snapshots are exported to `/Users/jeetjoshi/Documents/New project/data/tracker_snapshot.csv` (Google Sheets import-ready CSV).
-- Dashboard UI is available at `/dashboard` with auto-refresh every 30 seconds and one-click daily run trigger.
-- Dashboard supports filters (`source`, `geography`, `role_family`, `status`) and includes a dedicated Top Targets panel for VC/consulting/high-pay opportunities.

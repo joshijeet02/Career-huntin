@@ -1,0 +1,30 @@
+name: JayeshCoachApp
+options:
+  minimumXcodeGenVersion: 2.38.0
+settings:
+  base:
+    PRODUCT_BUNDLE_IDENTIFIER: org.vaagdhara.jayeshcoach
+    SWIFT_VERSION: 5.9
+    IPHONEOS_DEPLOYMENT_TARGET: 17.0
+targets:
+  JayeshCoachApp:
+    type: application
+    platform: iOS
+    deploymentTarget: "17.0"
+    sources:
+      - path: JayeshCoachApp
+    settings:
+      base:
+        INFOPLIST_FILE: JayeshCoachApp/Resources/Info.plist
+        PRODUCT_NAME: Jayesh Coach
+    scheme:
+      testTargets:
+        - JayeshCoachAppTests
+  JayeshCoachAppTests:
+    type: bundle.unit-test
+    platform: iOS
+    deploymentTarget: "17.0"
+    sources:
+      - path: JayeshCoachAppTests
+    dependencies:
+      - target: JayeshCoachApp
