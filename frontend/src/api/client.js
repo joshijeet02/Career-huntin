@@ -100,6 +100,13 @@ export const api = {
       post('/push/unsubscribe', { endpoint }),
   },
 
+  // ── Spiritual Wisdom ──────────────────────────────────────────────────────
+  wisdom: {
+    daily: (uid) => get(`/wisdom/daily?user_id=${uid}`),
+    ask: (uid, question) => post('/wisdom/ask', { user_id: uid, question }),
+    corpus: () => get('/wisdom/corpus'),
+  },
+
   // ── Health ────────────────────────────────────────────────────────────────
   health: () => get('/healthz'),
 }

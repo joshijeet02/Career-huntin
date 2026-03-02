@@ -449,6 +449,31 @@ class TrialClosingReport(Base, TimestampMixin):
 # We only store the user's intent (enabled / provider) and last sync time.
 
 
+class SpiritualWisdom(Base, TimestampMixin):
+    """
+    Curated corpus of teachings from great spiritual masters and sacred scriptures.
+    Powers the Spiritual Intelligence feature — contextual wisdom matched to the user's
+    current life situation, and the 'Ask the Masters' deep-dive interface.
+
+    Sources span 22 traditions across 2,500 years:
+    Bhagavad Gita, Bible, Quran, Ramayana, Vivekananda, Yogananda, Ramana Maharshi,
+    Buddha, Mahavira, Kabir, Rumi, Shankaracharya, Marcus Aurelius, Laozi, and more.
+    """
+
+    __tablename__ = "spiritual_wisdom"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    master: Mapped[str] = mapped_column(String(255), nullable=False, index=True)
+    tradition: Mapped[str] = mapped_column(String(128), nullable=False, index=True)
+    era: Mapped[str] = mapped_column(String(128), default="")            # e.g. "1st century BCE", "1863–1902"
+    quote: Mapped[str] = mapped_column(Text, nullable=False)
+    source: Mapped[str] = mapped_column(String(512), default="")         # book / chapter / verse
+    themes: Mapped[list] = mapped_column(JSON, default=list)             # leadership, ego, discipline, etc.
+    reflection: Mapped[str] = mapped_column(Text, default="")            # one-line coaching context
+    is_scripture: Mapped[bool] = mapped_column(Boolean, default=False)   # True for Gita, Bible, Quran, Ramayana
+    active: Mapped[bool] = mapped_column(Boolean, default=True)
+
+
 class PushSubscription(Base, TimestampMixin):
     """Web Push subscription for a user device. One row per browser/device."""
 

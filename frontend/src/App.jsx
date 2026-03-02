@@ -8,6 +8,7 @@ import Coach from './pages/Coach'
 import Habits from './pages/Habits'
 import Settings from './pages/Settings'
 import Commitments from './pages/Commitments'
+import Wisdom from './pages/Wisdom'
 
 // ── Web Push helpers ──────────────────────────────────────────────────────────
 function urlBase64ToUint8Array(base64String) {
@@ -177,6 +178,7 @@ export default function App() {
     habits: Habits,
     settings: Settings,
     commitments: Commitments,
+    wisdom: Wisdom,
   }
   const Page = pages[tab] || Dashboard
 

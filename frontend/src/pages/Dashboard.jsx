@@ -6,6 +6,7 @@ export default function Dashboard({ uid, onTabChange }) {
   const [firstRead, setFirstRead] = useState(null)
   const [memorySummary, setMemorySummary] = useState(null)
   const [openCommitments, setOpenCommitments] = useState(null)
+  const [dailyWisdom, setDailyWisdom] = useState(null)
   const [loading, setLoading] = useState(true)
   const [showFirstRead, setShowFirstRead] = useState(false)
   const [showProfile, setShowProfile] = useState(false)
@@ -19,11 +20,13 @@ export default function Dashboard({ uid, onTabChange }) {
       api.coach.firstRead(uid),
       api.coach.memorySummary(uid),
       api.commitments.open(uid),
-    ]).then(([prof, fr, mem, comm]) => {
+      api.wisdom.daily(uid),
+    ]).then(([prof, fr, mem, comm, wis]) => {
       if (prof.status === 'fulfilled') setProfile(prof.value)
       if (fr.status === 'fulfilled') setFirstRead(fr.value)
       if (mem.status === 'fulfilled') setMemorySummary(mem.value)
       if (comm.status === 'fulfilled') setOpenCommitments(comm.value)
+      if (wis.status === 'fulfilled') setDailyWisdom(wis.value?.wisdom || null)
       setLoading(false)
     })
   }, [uid])
@@ -59,15 +62,23 @@ export default function Dashboard({ uid, onTabChange }) {
   return (
     <div className="p-5">
       {/* Greeting */}
-      <div style={{ marginBottom: 20 }}>
-        <div style={{ fontSize: 26, fontWeight: 700, lineHeight: 1.2 }}>
-          {getGreeting()}, {name}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 20 }}>
+        <div>
+          <div style={{ fontSize: 26, fontWeight: 700, lineHeight: 1.2 }}>
+            {getGreeting()}, {name}
+          </div>
+          <div className="hint mt-1">
+            {memorySummary ? (
+              <>Coach memory: <span style={{ color: richnessColor, fontWeight: 600 }}>{richness}</span></>
+            ) : 'Your personal coaching OS'}
+          </div>
         </div>
-        <div className="hint mt-1">
-          {memorySummary ? (
-            <>Coach memory: <span style={{ color: richnessColor, fontWeight: 600 }}>{richness}</span></>
-          ) : 'Your personal coaching OS'}
-        </div>
+        <button
+          onClick={() => onTabChange && onTabChange('settings')}
+          style={{ background: 'var(--bg3)', border: 'none', color: 'var(--text3)', borderRadius: 20, width: 36, height: 36, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 4 }}
+        >
+          ⚙️
+        </button>
       </div>
 
       {/* First Read card — the hero card */}
@@ -191,6 +202,35 @@ export default function Dashboard({ uid, onTabChange }) {
         <QuickCard emoji="🤝" label="Commitments" hint="Track your word" onClick={() => onTabChange && onTabChange('commitments')} />
         <QuickCard emoji="💬" label="Ask coach" hint="Get guidance" onClick={() => onTabChange && onTabChange('coach')} />
       </div>
+
+      {/* Today's Wisdom preview */}
+      {dailyWisdom && (
+        <div
+          className="card mb-4"
+          style={{
+            background: 'linear-gradient(145deg, #0f0c29 0%, #1e1b4b 100%)',
+            border: '1px solid rgba(167,139,250,0.2)', cursor: 'pointer',
+          }}
+          onClick={() => onTabChange && onTabChange('wisdom')}
+        >
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 8 }}>
+            <div>
+              <div style={{ fontSize: 10, fontWeight: 700, color: '#a78bfa', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 4 }}>
+                Today's Wisdom
+              </div>
+              <div style={{ fontSize: 14, fontWeight: 700 }}>{dailyWisdom.master}</div>
+              <div style={{ fontSize: 11, color: '#7c3aed', marginTop: 1 }}>{dailyWisdom.tradition}</div>
+            </div>
+            <span style={{ fontSize: 24 }}>📿</span>
+          </div>
+          <div style={{ fontSize: 13, color: '#c4b5fd', lineHeight: 1.6, fontStyle: 'italic', fontFamily: 'Georgia, serif', marginBottom: 8 }}>
+            "{dailyWisdom.quote.length > 120 ? dailyWisdom.quote.slice(0, 120) + '…' : dailyWisdom.quote}"
+          </div>
+          <div style={{ fontSize: 12, color: '#6d28d9', fontWeight: 600 }}>
+            Tap to explore the masters →
+          </div>
+        </div>
+      )}
 
       {/* Morning Brief modal */}
       {showMorningBrief && (

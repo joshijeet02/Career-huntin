@@ -7,7 +7,7 @@ from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 
 from app.database import Base, engine, get_db
-from app.models import UserProfile
+from app.models import SpiritualWisdom, UserProfile
 from app.schemas import (
     CoachConversationHistoryItem,
     CoachConversationMessageRequest,
@@ -78,6 +78,7 @@ from app.services.proactive_coach import (
 )
 from app.services.reflection import save_weekly_reflection
 from app.services.research_intel import premium_tiers
+from app.services.wisdom import ask_masters, get_contextual_wisdom, seed_wisdom_corpus
 from app.security import validate_request_auth
 
 
@@ -89,6 +90,9 @@ async def lifespan(_: FastAPI):
         seeded = seed_knowledge_base(db)
         if seeded:
             print(f"[startup] Knowledge base seeded with {seeded} items.")
+        wisdom_seeded = seed_wisdom_corpus(db)
+        if wisdom_seeded:
+            print(f"[startup] Spiritual wisdom corpus seeded with {wisdom_seeded} teachings.")
     yield
 
 
@@ -1613,3 +1617,67 @@ def trigger_evening_push(request: Request, db: Session = Depends(get_db)):
             raise HTTPException(status_code=401, detail="Invalid secret")
     result = send_evening_notifications(db)
     return result
+
+
+# ── Spiritual Wisdom ──────────────────────────────────────────────────────────
+
+@app.get("/wisdom/daily", tags=["Wisdom"])
+def wisdom_daily(user_id: str = Query(...), db: Session = Depends(get_db)):
+    """
+    Return today's contextual wisdom teaching for a user.
+    Picks deterministically by date so the same entry shows all day,
+    but rotates daily based on the user's recent check-in state.
+    """
+    entry = get_contextual_wisdom(user_id, db)
+    if not entry:
+        return {"wisdom": None}
+    return {
+        "wisdom": {
+            "id": entry.id,
+            "master": entry.master,
+            "tradition": entry.tradition,
+            "era": entry.era,
+            "quote": entry.quote,
+            "source": entry.source,
+            "themes": entry.themes,
+            "reflection": entry.reflection,
+            "is_scripture": entry.is_scripture,
+        }
+    }
+
+
+@app.post("/wisdom/ask", tags=["Wisdom"])
+async def wisdom_ask(payload: dict, db: Session = Depends(get_db)):
+    """
+    Ask the Masters — synthesize wisdom from the corpus in response to any question.
+    Body: { user_id: str, question: str }
+    Returns: { synthesis: str, citations: [...], theme: str }
+    """
+    user_id = payload.get("user_id", "default")
+    question = payload.get("question", "").strip()
+    if not question:
+        raise HTTPException(status_code=400, detail="question is required")
+    result = await ask_masters(question, user_id, db)
+    return result
+
+
+@app.get("/wisdom/corpus", tags=["Wisdom"])
+def wisdom_corpus(db: Session = Depends(get_db)):
+    """
+    Return a summary of all masters and scriptures in the wisdom corpus.
+    Used to display the 'Meet the Masters' section in the frontend.
+    """
+    entries = db.query(SpiritualWisdom).filter(SpiritualWisdom.active == True).all()
+    # Aggregate by master
+    masters: dict[str, dict] = {}
+    for e in entries:
+        if e.master not in masters:
+            masters[e.master] = {
+                "master": e.master,
+                "tradition": e.tradition,
+                "era": e.era,
+                "is_scripture": e.is_scripture,
+                "count": 0,
+            }
+        masters[e.master]["count"] += 1
+    return {"masters": list(masters.values()), "total_teachings": len(entries)}
