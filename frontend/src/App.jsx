@@ -86,25 +86,27 @@ function NotifBanner({ uid, onDismiss }) {
       maxWidth: 430, margin: '0 auto', padding: '0 16px',
     }}>
       <div style={{
-        background: '#1e293b', border: '1px solid #334155',
-        borderRadius: 16, padding: '16px 18px',
-        boxShadow: '0 8px 32px rgba(0,0,0,0.5)',
+        background: 'rgba(11,14,24,0.97)',
+        border: '1px solid var(--gold-border)',
+        borderRadius: 18, padding: '18px 20px',
+        boxShadow: '0 8px 40px rgba(0,0,0,0.7), 0 0 0 1px rgba(201,168,76,0.06) inset',
+        backdropFilter: 'blur(20px)',
       }}>
-        <div style={{ fontSize: 13, fontWeight: 700, marginBottom: 4 }}>
-          🔔 Enable coaching nudges?
+        <div style={{ fontSize: 13, fontWeight: 700, marginBottom: 4, color: 'var(--text1)' }}>
+          🔔 Enable daily coaching nudges?
         </div>
-        <div style={{ fontSize: 12, color: '#94a3b8', marginBottom: 14, lineHeight: 1.5 }}>
-          Get a morning brief at 8 AM and an evening reflection reminder at 7 PM.
+        <div style={{ fontSize: 12, color: 'var(--text3)', marginBottom: 16, lineHeight: 1.6 }}>
+          Morning brief at 8 AM · Evening reflection at 7 PM.
         </div>
         <div style={{ display: 'flex', gap: 10 }}>
           <button
-            style={{ flex: 1, padding: '10px', background: '#6366f1', color: '#fff', border: 'none', borderRadius: 10, fontWeight: 700, fontSize: 13, cursor: 'pointer' }}
+            style={{ flex: 1, padding: '11px', background: 'linear-gradient(135deg, #c9a84c, #a87e2e)', color: '#07080d', border: 'none', borderRadius: 12, fontWeight: 700, fontSize: 13, cursor: 'pointer', letterSpacing: '0.02em' }}
             onClick={enable} disabled={asking}
           >
             {asking ? 'Enabling…' : 'Enable'}
           </button>
           <button
-            style={{ padding: '10px 16px', background: '#334155', color: '#94a3b8', border: 'none', borderRadius: 10, fontSize: 13, cursor: 'pointer' }}
+            style={{ padding: '11px 18px', background: 'var(--bg3)', color: 'var(--text3)', border: '1px solid var(--border)', borderRadius: 12, fontSize: 13, cursor: 'pointer' }}
             onClick={onDismiss}
           >
             Later
@@ -155,10 +157,35 @@ export default function App() {
     return (
       <div className="app-shell">
         <div className="splash">
-          <div style={{ fontSize: 48, marginBottom: 8 }}>🧭</div>
-          <div style={{ fontSize: 22, fontWeight: 700 }}>Coach</div>
-          <div className="spinner" style={{ marginTop: 24 }} />
+          <div style={{ display: 'flex', gap: 10, marginBottom: 16 }}>
+            {['🪔','🎯','🫀','🧬'].map((ic, i) => (
+              <span key={i} style={{
+                fontSize: 22, opacity: 0.6,
+                animation: `pulse 1.6s ease-in-out ${i * 0.25}s infinite`,
+                display: 'inline-block',
+              }}>{ic}</span>
+            ))}
+          </div>
+          <div style={{
+            fontFamily: 'var(--font-serif)',
+            fontSize: 30, fontWeight: 600,
+            color: 'var(--gold)',
+            fontStyle: 'italic',
+            marginBottom: 6,
+          }}>
+            The Council
+          </div>
+          <div style={{ fontSize: 13, color: 'var(--text3)', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 28 }}>
+            Your personal coaching OS
+          </div>
+          <div className="spinner" />
         </div>
+        <style>{`
+          @keyframes pulse {
+            0%, 100% { opacity: 0.25; transform: scale(0.88); }
+            50%       { opacity: 0.9;  transform: scale(1.08); }
+          }
+        `}</style>
       </div>
     )
   }
