@@ -79,6 +79,7 @@ from app.services.proactive_coach import (
 from app.services.reflection import save_weekly_reflection
 from app.services.research_intel import premium_tiers
 from app.services.wisdom import ask_masters, get_contextual_wisdom, seed_wisdom_corpus
+from app.services.council import ask_council
 from app.security import validate_request_auth
 
 
@@ -1681,3 +1682,21 @@ def wisdom_corpus(db: Session = Depends(get_db)):
             }
         masters[e.master]["count"] += 1
     return {"masters": list(masters.values()), "total_teachings": len(entries)}
+
+
+# ── The Council ───────────────────────────────────────────────────────────────
+
+@app.post("/council/ask", tags=["Council"])
+async def council_ask(body: dict, db: Session = Depends(get_db)):
+    """
+    The Council: four simultaneous voices (Sage, Strategist, Heart, Scientist)
+    respond together to a single question. Returns a structured response with
+    all four voice perspectives plus a unified synthesis.
+    """
+    user_id = str(body.get("user_id", ""))
+    question = str(body.get("question", "")).strip()
+    history = body.get("history", [])
+    if not question:
+        raise HTTPException(status_code=400, detail="question is required")
+    result = await ask_council(question, user_id, history, db)
+    return result

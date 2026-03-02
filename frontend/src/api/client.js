@@ -107,6 +107,12 @@ export const api = {
     corpus: () => get('/wisdom/corpus'),
   },
 
+  // ── Council ───────────────────────────────────────────────────────────────
+  council: {
+    ask: (uid, question, history = []) =>
+      post('/council/ask', { user_id: uid, question, history }),
+  },
+
   // ── Health ────────────────────────────────────────────────────────────────
   health: () => get('/healthz'),
 }
