@@ -247,8 +247,9 @@ def process_onboarding_step(
 
     if next_step >= TOTAL_STEPS:
         profile.onboarding_complete = True
-        db.commit()
         summary = _build_profile_summary(profile)
+        profile.profile_summary = summary  # persist so it survives server restarts
+        db.commit()
         return None, True, summary
 
     db.commit()

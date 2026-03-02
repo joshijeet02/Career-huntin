@@ -45,7 +45,7 @@ export default function App() {
   return (
     <div className="app-shell">
       <div className="page">
-        <Page uid={uid} />
+        <Page uid={uid} onTabChange={setTab} />
       </div>
       <BottomNav active={tab} onChange={setTab} />
     </div>

@@ -40,6 +40,7 @@ class UserProfile(Base, TimestampMixin):
     onboarding_complete: Mapped[bool] = mapped_column(Boolean, default=False)
     onboarding_step: Mapped[int] = mapped_column(Integer, default=0)
     onboarding_answers_raw: Mapped[dict] = mapped_column(JSON, default=dict)
+    profile_summary: Mapped[str] = mapped_column(Text, default="")  # saved at onboarding completion
 
     # Evolving profile
     profile_version: Mapped[int] = mapped_column(Integer, default=1)

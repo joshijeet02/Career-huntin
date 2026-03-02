@@ -241,6 +241,7 @@ def get_profile(
         last_profile_update=profile.last_profile_update,
         energy_baseline=profile.energy_baseline,
         burnout_risk=profile.burnout_risk,
+        profile_summary=profile.profile_summary or "",
     )
 
 

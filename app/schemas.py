@@ -46,6 +46,7 @@ class UserProfileOut(BaseModel):
     last_profile_update: datetime
     energy_baseline: float
     burnout_risk: str
+    profile_summary: str = ""
 
 
 # ── Daily Check-In ────────────────────────────────────────────────────────────
