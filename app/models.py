@@ -447,3 +447,19 @@ class TrialClosingReport(Base, TimestampMixin):
 # In practice, SQLAlchemy will add them in the same table.
 # The iOS app handles OAuth — we never store tokens in this DB.
 # We only store the user's intent (enabled / provider) and last sync time.
+
+
+class PushSubscription(Base, TimestampMixin):
+    """Web Push subscription for a user device. One row per browser/device."""
+
+    __tablename__ = "push_subscriptions"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    user_id: Mapped[str] = mapped_column(String(255), nullable=False, index=True)
+    endpoint: Mapped[str] = mapped_column(Text, nullable=False, unique=True)
+    p256dh: Mapped[str] = mapped_column(Text, nullable=False)   # browser public key
+    auth: Mapped[str] = mapped_column(Text, nullable=False)     # auth secret
+    user_agent: Mapped[str] = mapped_column(Text, default="")
+    # Track what was last sent so we don't double-send on restart
+    last_morning_sent: Mapped[str] = mapped_column(String(10), default="")  # YYYY-MM-DD
+    last_evening_sent: Mapped[str] = mapped_column(String(10), default="")  # YYYY-MM-DD

@@ -9,6 +9,9 @@ export default function Dashboard({ uid, onTabChange }) {
   const [loading, setLoading] = useState(true)
   const [showFirstRead, setShowFirstRead] = useState(false)
   const [showProfile, setShowProfile] = useState(false)
+  const [morningBrief, setMorningBrief] = useState(null)
+  const [morningBriefLoading, setMorningBriefLoading] = useState(false)
+  const [showMorningBrief, setShowMorningBrief] = useState(false)
 
   useEffect(() => {
     Promise.allSettled([
@@ -29,6 +32,21 @@ export default function Dashboard({ uid, onTabChange }) {
     setShowFirstRead(true)
     if (firstRead && !firstRead.delivered) {
       await api.coach.markFirstReadDelivered(uid).catch(() => {})
+    }
+  }
+
+  const openMorningBrief = async () => {
+    setShowMorningBrief(true)
+    if (morningBrief) return  // already loaded
+    setMorningBriefLoading(true)
+    try {
+      // Re-use firstRead data if it's fresh, otherwise fetch a coach respond
+      const data = await api.coach.respond(uid, 'morning_brief', '', 'general')
+      setMorningBrief(data?.response || data?.message || 'Your coach is preparing your brief…')
+    } catch {
+      setMorningBrief('Could not load morning brief. Try opening the Coach tab.')
+    } finally {
+      setMorningBriefLoading(false)
     }
   }
 
@@ -168,11 +186,20 @@ export default function Dashboard({ uid, onTabChange }) {
       {/* Quick actions */}
       <div className="label mb-3">Quick actions</div>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-        <QuickCard emoji="🧘" label="Morning brief" hint="Coach's briefing" onClick={() => onTabChange && onTabChange('coach')} />
-        <QuickCard emoji="📝" label="Reflection" hint="End of week" onClick={() => onTabChange && onTabChange('checkin')} />
-        <QuickCard emoji="🎯" label="Sprint board" hint="90-day goals" onClick={() => onTabChange && onTabChange('coach')} />
-        <QuickCard emoji="📊" label="Energy insight" hint="Your patterns" onClick={() => onTabChange && onTabChange('checkin')} />
+        <QuickCard emoji="🧘" label="Morning brief" hint="Coach's daily note" onClick={openMorningBrief} />
+        <QuickCard emoji="📝" label="Check-in" hint="Log your day" onClick={() => onTabChange && onTabChange('checkin')} />
+        <QuickCard emoji="🤝" label="Commitments" hint="Track your word" onClick={() => onTabChange && onTabChange('commitments')} />
+        <QuickCard emoji="💬" label="Ask coach" hint="Get guidance" onClick={() => onTabChange && onTabChange('coach')} />
       </div>
+
+      {/* Morning Brief modal */}
+      {showMorningBrief && (
+        <MorningBriefModal
+          loading={morningBriefLoading}
+          text={morningBrief}
+          onClose={() => setShowMorningBrief(false)}
+        />
+      )}
     </div>
   )
 }
@@ -266,6 +293,38 @@ function FirstReadModal({ text, onClose }) {
         <div style={{ fontSize: 15, lineHeight: 1.8, color: 'var(--text)', whiteSpace: 'pre-wrap', fontFamily: 'Georgia, serif' }}>
           {text}
         </div>
+      </div>
+    </div>
+  )
+}
+
+function MorningBriefModal({ loading, text, onClose }) {
+  return (
+    <div style={{
+      position: 'fixed', inset: 0, zIndex: 200,
+      background: 'rgba(0,0,0,0.85)', display: 'flex', flexDirection: 'column',
+      maxWidth: 430, margin: '0 auto',
+    }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '20px 20px 0', paddingTop: 'calc(var(--safe-top) + 20px)' }}>
+        <div>
+          <div style={{ fontWeight: 700, fontSize: 18 }}>Morning Brief</div>
+          <div style={{ fontSize: 12, color: 'var(--text3)', marginTop: 2 }}>Your coach's note for today</div>
+        </div>
+        <button onClick={onClose} style={{ background: 'var(--bg3)', border: 'none', color: 'var(--text)', borderRadius: 20, width: 36, height: 36, cursor: 'pointer', fontSize: 18 }}>×</button>
+      </div>
+      <div style={{ flex: 1, overflowY: 'auto', padding: '20px', WebkitOverflowScrolling: 'touch' }}>
+        {loading ? (
+          <div style={{ display: 'flex', justifyContent: 'center', paddingTop: 60 }}>
+            <div className="spinner" />
+          </div>
+        ) : (
+          <div style={{ fontSize: 15, lineHeight: 1.8, color: 'var(--text)', whiteSpace: 'pre-wrap', fontFamily: 'Georgia, serif' }}>
+            {text}
+          </div>
+        )}
+      </div>
+      <div style={{ padding: '16px 20px', paddingBottom: 'calc(16px + env(safe-area-inset-bottom))' }}>
+        <button className="btn btn-primary" onClick={onClose}>Close</button>
       </div>
     </div>
   )

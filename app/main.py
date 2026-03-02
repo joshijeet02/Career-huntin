@@ -1531,3 +1531,85 @@ def get_memory_summary(
     if "error" in summary:
         raise HTTPException(status_code=404, detail=summary["error"])
     return MemoryContextSummaryResponse(**summary)
+
+
+# ── Push Notifications ────────────────────────────────────────────────────────
+import os as _os
+from app.services.notifications import (
+    delete_subscription,
+    get_subscription_count,
+    save_subscription,
+    send_evening_notifications,
+    send_morning_notifications,
+)
+
+_NOTIFICATION_SECRET = _os.getenv("NOTIFICATION_SECRET", "")
+_VAPID_PUBLIC_KEY = _os.getenv("VAPID_PUBLIC_KEY", "")
+
+
+@app.get("/push/vapid-public-key", tags=["Push"])
+def get_vapid_public_key():
+    """Return the VAPID public key so the frontend can subscribe."""
+    return {"public_key": _VAPID_PUBLIC_KEY}
+
+
+@app.post("/push/subscribe", tags=["Push"])
+def push_subscribe(payload: dict, db: Session = Depends(get_db)):
+    """
+    Register (or refresh) a push subscription for a user device.
+    Body: { user_id, endpoint, p256dh, auth, user_agent? }
+    """
+    user_id = payload.get("user_id", "default")
+    endpoint = payload.get("endpoint", "")
+    p256dh = payload.get("p256dh", "")
+    auth = payload.get("auth", "")
+    user_agent = payload.get("user_agent", "")
+
+    if not endpoint or not p256dh or not auth:
+        raise HTTPException(status_code=400, detail="endpoint, p256dh, and auth are required")
+
+    sub = save_subscription(db, user_id, endpoint, p256dh, auth, user_agent)
+    count = get_subscription_count(db, user_id)
+    return {"subscribed": True, "subscription_id": sub.id, "total_devices": count}
+
+
+@app.post("/push/unsubscribe", tags=["Push"])
+def push_unsubscribe(payload: dict, db: Session = Depends(get_db)):
+    """Remove a push subscription (user turned off notifications)."""
+    endpoint = payload.get("endpoint", "")
+    if not endpoint:
+        raise HTTPException(status_code=400, detail="endpoint required")
+    deleted = delete_subscription(db, endpoint)
+    return {"unsubscribed": deleted}
+
+
+@app.post("/push/send-morning", tags=["Push"])
+def trigger_morning_push(request: Request, db: Session = Depends(get_db)):
+    """
+    Send morning coaching nudge to all subscribers.
+    Protected by NOTIFICATION_SECRET bearer token.
+    Call this from an external cron at 8 AM IST (2:30 AM UTC).
+    """
+    if _NOTIFICATION_SECRET:
+        auth_header = request.headers.get("Authorization", "")
+        token = auth_header.replace("Bearer ", "").strip()
+        if token != _NOTIFICATION_SECRET:
+            raise HTTPException(status_code=401, detail="Invalid secret")
+    result = send_morning_notifications(db)
+    return result
+
+
+@app.post("/push/send-evening", tags=["Push"])
+def trigger_evening_push(request: Request, db: Session = Depends(get_db)):
+    """
+    Send evening reflection reminder to all subscribers.
+    Protected by NOTIFICATION_SECRET bearer token.
+    Call this from an external cron at 7 PM IST (1:30 PM UTC).
+    """
+    if _NOTIFICATION_SECRET:
+        auth_header = request.headers.get("Authorization", "")
+        token = auth_header.replace("Bearer ", "").strip()
+        if token != _NOTIFICATION_SECRET:
+            raise HTTPException(status_code=401, detail="Invalid secret")
+    result = send_evening_notifications(db)
+    return result

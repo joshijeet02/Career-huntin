@@ -91,6 +91,15 @@ export const api = {
       post(`/commitments/${commitment_id}/check-in`, { user_id: uid, status, user_note }),
   },
 
+  // ── Push Notifications ───────────────────────────────────────────────────
+  push: {
+    getVapidKey: () => get('/push/vapid-public-key'),
+    subscribe: (uid, endpoint, p256dh, auth) =>
+      post('/push/subscribe', { user_id: uid, endpoint, p256dh, auth, user_agent: navigator.userAgent }),
+    unsubscribe: (endpoint) =>
+      post('/push/unsubscribe', { endpoint }),
+  },
+
   // ── Health ────────────────────────────────────────────────────────────────
   health: () => get('/healthz'),
 }
