@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { api } from '../api/client'
+import WisdomSettings from '../components/WisdomSettings'
 
 // Simple SVG sparkline component so we don't need heavy charting libraries
 function EnergySparkline({ data, height = 120, color = 'var(--primary)' }) {
@@ -69,6 +70,7 @@ function SimpleMarkdown({ text }) {
 export default function Progress({ uid }) {
     const [energyData, setEnergyData] = useState(null)
     const [achievements, setAchievements] = useState([])
+    const [profile, setProfile] = useState(null)
     const [loading, setLoading] = useState(true)
 
     const [synthesisReport, setSynthesisReport] = useState(null)
@@ -92,12 +94,14 @@ export default function Progress({ uid }) {
     useEffect(() => {
         async function load() {
             try {
-                const [energy, ach] = await Promise.all([
+                const [energy, ach, prof] = await Promise.all([
                     api.metrics.energy(uid, 30).catch(() => null),
-                    api.metrics.achievements(uid).catch(() => [])
+                    api.metrics.achievements(uid).catch(() => []),
+                    api.profile.get(uid).catch(() => null)
                 ])
                 setEnergyData(energy)
                 setAchievements(ach)
+                setProfile(prof)
             } finally {
                 setLoading(false)
             }
@@ -224,6 +228,13 @@ export default function Progress({ uid }) {
                     </div>
                 )}
             </div>
+
+            {/* Wisdom Preferences */}
+            <WisdomSettings
+                uid={uid}
+                currentPrefs={profile?.wisdom_preferences}
+                onUpdate={(newPrefs) => setProfile({ ...profile, wisdom_preferences: newPrefs })}
+            />
 
             {/* Premium Synthesis feature */}
             <div className="mb-4">

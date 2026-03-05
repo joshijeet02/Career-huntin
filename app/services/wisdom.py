@@ -961,6 +961,47 @@ CORPUS: list[dict] = [
         "reflection": "Speech fills the silence that discomfort creates. Inner peace needs less filling.",
         "is_scripture": False,
     },
+    # ── Modern Strategy / Entrepreneurship ────────────────────────────────────
+    {
+        "master": "Naval Ravikant",
+        "tradition": "Modern Strategy",
+        "era": "21st century",
+        "quote": "Productize yourself. If you can be easily replaced, you will be. Find what you are the best in the world at, and keep doing it until you are.",
+        "source": "The Almanack of Naval Ravikant",
+        "themes": ["work", "purpose", "leadership", "discipline"],
+        "reflection": "Leverage comes from being distinct. Don't compete — create a category of one.",
+        "is_scripture": False,
+    },
+    {
+        "master": "Naval Ravikant",
+        "tradition": "Modern Strategy",
+        "era": "21st century",
+        "quote": "Earn with your mind, not your time. All the real wealth in life comes from compound interest in relationships, money, and habits.",
+        "source": "The Almanack of Naval Ravikant",
+        "themes": ["work", "discipline", "wisdom", "relationships"],
+        "reflection": "Linear effort yields linear results. Compounding yields the future.",
+        "is_scripture": False,
+    },
+    {
+        "master": "Charlie Munger",
+        "tradition": "Modern Strategy",
+        "era": "20th–21st century",
+        "quote": "Invert, always invert. Turn a situation or problem upside down. Look at it backward. What happens if all our plans go wrong? Where don't we want to go, and how do you get there? Instead of looking for success, make a list of how to fail.",
+        "source": "Poor Charlie's Almanack",
+        "themes": ["wisdom", "discipline", "mind", "leadership"],
+        "reflection": "Avoiding stupidity is easier than seeking brilliance. Start by removing the obstacles.",
+        "is_scripture": False,
+    },
+    {
+        "master": "Charlie Munger",
+        "tradition": "Modern Strategy",
+        "era": "20th–21st century",
+        "quote": "The best thing a human can do is to help another human being know more. A life properly lived is just learn, learn, learn all the time.",
+        "source": "Poor Charlie's Almanack",
+        "themes": ["service", "wisdom", "purpose", "work"],
+        "reflection": "Continuous learning is the only durable competitive advantage.",
+        "is_scripture": False,
+    },
 ]
 
 # ── Seed ──────────────────────────────────────────────────────────────────────
@@ -1045,8 +1086,15 @@ def get_contextual_wisdom(user_id: str, db: Session) -> SpiritualWisdom | None:
         return None
 
     scored = []
+    user_prefs = profile.wisdom_preferences if profile else []
+    
     for w in all_wisdom:
         overlap = len(set(w.themes) & set(target_themes))
+        
+        # Boost entries that match user tradition preferences
+        if user_prefs and w.tradition in user_prefs:
+            overlap += 5  # Strong preference weight
+            
         scored.append((overlap, w))
 
     scored.sort(key=lambda x: x[0], reverse=True)

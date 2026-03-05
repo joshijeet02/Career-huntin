@@ -11,6 +11,7 @@ from sqlalchemy.orm import Session
 
 from app.models import HabitCompletion, HabitRecord
 from app.schemas import HabitCompleteRequest, HabitCreateRequest, HabitOut, HabitsResponse
+from app.services.achievements import check_habit_achievements
 
 
 def create_habit(db: Session, payload: HabitCreateRequest) -> HabitOut:
@@ -47,6 +48,9 @@ def complete_habit(db: Session, payload: HabitCompleteRequest) -> HabitOut:
             note=payload.note,
         ))
         db.commit()
+
+        # Gamification hook
+        check_habit_achievements(db, payload.user_id, habit.id)
 
     return _habit_out(db, habit)
 

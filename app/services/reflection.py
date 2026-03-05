@@ -11,6 +11,7 @@ from sqlalchemy.orm import Session
 
 from app.models import DailyCheckIn, HabitCompletion, HabitRecord, UserProfile, WeeklyReflection
 from app.schemas import WeeklyReflectionRequest, WeeklyReflectionResponse
+from app.services.achievements import check_consistency_achievements
 
 
 def _monday_of_week(d: date) -> str:
@@ -96,4 +97,8 @@ def save_weekly_reflection(db: Session, payload: WeeklyReflectionRequest) -> Wee
             coach_synthesis=synthesis,
         ))
     db.commit()
+
+    # Gamification hook
+    check_consistency_achievements(db, payload.user_id)
+
     return WeeklyReflectionResponse(week_start=week_start, coach_synthesis=synthesis)

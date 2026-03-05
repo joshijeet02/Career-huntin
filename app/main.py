@@ -46,6 +46,7 @@ from app.schemas import (
     WeeklyReflectionResponse,
     CouncilSynthesisRequest,
     CouncilSynthesisResponse,
+    WisdomPreferencesUpdate,
 )
 from app.services.checkin import process_checkin
 from app.services.coach import generate_coach_response
@@ -249,6 +250,39 @@ def get_profile(
         energy_baseline=profile.energy_baseline,
         burnout_risk=profile.burnout_risk,
         profile_summary=profile.profile_summary or "",
+        wisdom_preferences=profile.wisdom_preferences or [],
+    )
+
+
+@app.post("/profile/wisdom-preferences", response_model=UserProfileOut, tags=["Profile"])
+def update_wisdom_preferences(
+    payload: WisdomPreferencesUpdate, db: Session = Depends(get_db)
+) -> UserProfileOut:
+    profile = db.query(UserProfile).filter_by(user_id=payload.user_id).first()
+    if not profile:
+        raise HTTPException(status_code=404, detail="Profile not found.")
+    
+    profile.wisdom_preferences = payload.traditions
+    profile.updated_at = datetime.utcnow()
+    db.commit()
+    db.refresh(profile)
+    
+    return UserProfileOut(
+        user_id=profile.user_id,
+        full_name=profile.full_name,
+        role=profile.role,
+        organization=profile.organization,
+        biggest_challenge=profile.biggest_challenge,
+        core_values=profile.core_values or [],
+        goals_90_days=profile.goals_90_days or [],
+        coaching_style_preference=profile.coaching_style_preference,
+        onboarding_complete=profile.onboarding_complete,
+        profile_version=profile.profile_version,
+        last_profile_update=profile.last_profile_update,
+        energy_baseline=profile.energy_baseline,
+        burnout_risk=profile.burnout_risk,
+        profile_summary=profile.profile_summary or "",
+        wisdom_preferences=profile.wisdom_preferences or [],
     )
 
 

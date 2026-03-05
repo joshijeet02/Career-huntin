@@ -35,6 +35,10 @@ from app.schemas import (
     DailyCheckInResponse,
 )
 from app.services.checkin import _assess_burnout_risk, _coach_response_for_checkin
+from app.services.achievements import (
+    check_consistency_achievements,
+    check_recovery_achievement,
+)
 
 
 # ── Tone / emotional signal detection ────────────────────────────────────────
@@ -361,6 +365,10 @@ def process_conversational_checkin(
             profile.consecutive_low_energy_days = 0
 
     db.commit()
+
+    # Gamification hooks
+    check_consistency_achievements(db, user_id)
+    check_recovery_achievement(db, user_id)
 
     return ConversationalCheckInResponse(
         status="complete",

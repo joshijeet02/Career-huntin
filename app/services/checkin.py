@@ -13,6 +13,10 @@ from sqlalchemy.orm import Session
 
 from app.models import DailyCheckIn, UserProfile
 from app.schemas import DailyCheckInRequest, DailyCheckInResponse
+from app.services.achievements import (
+    check_consistency_achievements,
+    check_recovery_achievement,
+)
 
 
 _LOW_ENERGY_THRESHOLD = 5.0
@@ -148,6 +152,10 @@ def process_checkin(db: Session, payload: DailyCheckInRequest) -> DailyCheckInRe
             profile.consecutive_low_energy_days = 0
 
     db.commit()
+
+    # Gamification hooks
+    check_consistency_achievements(db, payload.user_id)
+    check_recovery_achievement(db, payload.user_id)
 
     return DailyCheckInResponse(
         check_in_date=today,

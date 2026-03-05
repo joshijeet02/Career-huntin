@@ -56,6 +56,9 @@ class UserProfile(Base, TimestampMixin):
     calendar_provider: Mapped[str] = mapped_column(String(64), default="")   # "google" | "apple" | ""
     calendar_last_synced: Mapped[str] = mapped_column(String(32), default="")  # ISO datetime of last sync
 
+    # Personalization Preferences
+    wisdom_preferences: Mapped[list] = mapped_column(JSON, default=list)  # list of tradition names
+
 
 class CoachConversation(Base, TimestampMixin):
     """Encrypted conversation turns. Retention-controlled."""

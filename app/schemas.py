@@ -47,6 +47,12 @@ class UserProfileOut(BaseModel):
     energy_baseline: float
     burnout_risk: str
     profile_summary: str = ""
+    wisdom_preferences: list[str] = Field(default_factory=list)
+
+
+class WisdomPreferencesUpdate(BaseModel):
+    user_id: str = "default"
+    traditions: list[str]
 
 
 # ── Daily Check-In ────────────────────────────────────────────────────────────
