@@ -7,7 +7,7 @@ import re
 import httpx
 from sqlalchemy.orm import Session
 
-from app.models import DailyCheckIn, Goal
+from app.models import DailyCheckIn, UserProfile
 
 # ─── The Four Council Voices ─────────────────────────────────────────────────
 COUNCIL = {
@@ -88,11 +88,10 @@ def _get_user_context(user_id: str, db: Session) -> str:
             .limit(3)
             .all()
         )
-        goals = (
-            db.query(Goal)
-            .filter(Goal.user_id == user_id, Goal.active == True)
-            .limit(3)
-            .all()
+        profile = (
+            db.query(UserProfile)
+            .filter(UserProfile.user_id == user_id)
+            .first()
         )
         parts: list[str] = []
         if checkins:
@@ -102,8 +101,9 @@ def _get_user_context(user_id: str, db: Session) -> str:
             notes = [c.mood_note for c in checkins if getattr(c, "mood_note", None)]
             if notes:
                 parts.append(f"Recent mood themes: {'; '.join(notes[:2])}.")
-        if goals:
-            titles = [g.title for g in goals if getattr(g, "title", None)]
+        if profile and getattr(profile, "goals_90_days", None):
+            goals = profile.goals_90_days
+            titles = [g.get("goal", str(g)) for g in goals]
             if titles:
                 parts.append(f"Active goals: {', '.join(titles[:3])}.")
         return " ".join(parts) if parts else "No recent context available."
@@ -195,6 +195,8 @@ async def ask_council(
         for key, meta in COUNCIL.items()
     )
 
+    prior_conv = f"Prior conversation:\n{history_str}" if history_str else ""
+
     system_prompt = f"""You are a Council of four wise advisors who respond together to the same situation.
 Each voice speaks from their own distinct tradition and perspective — never overlap or repeat one another.
 
@@ -204,7 +206,7 @@ THE SYNTHESIS: One final voice that speaks in 1–2 sentences. It identifies the
 all four voices agree on — the thread beneath their different perspectives.
 
 Person's coaching context: {user_ctx}
-{('Prior conversation:\n' + history_str) if history_str else ''}
+{prior_conv}
 
 Respond ONLY with valid JSON in exactly this format:
 {{

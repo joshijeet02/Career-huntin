@@ -39,7 +39,7 @@ export default function Settings({ uid }) {
     try {
       const perm = await Notification.requestPermission()
       if (perm !== 'granted') {
-        setMsg('Permission denied. Enable in your phone's Settings → Notifications.')
+        setMsg("Permission denied. Enable in your phone's Settings → Notifications.")
         setPushState('denied')
         return
       }
@@ -59,7 +59,7 @@ export default function Settings({ uid }) {
       )
       setPushState('subscribed')
       localStorage.setItem('notif_banner_dismissed', '1')
-      setMsg('✅ Notifications enabled! You'll get a nudge at 8 AM and 7 PM.')
+      setMsg("✅ Notifications enabled! You'll get a nudge at 8 AM and 7 PM.")
     } catch (e) {
       setMsg('Something went wrong. Try again.')
       console.error(e)
