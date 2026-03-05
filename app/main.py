@@ -735,6 +735,7 @@ from app.schemas import (
     FinalDecisionRequest, HealthDataRequest, HealthDataResponse, HealthSummaryResponse,
     LogDecisionRequest, LogDecisionResponse, MilestoneUpdateRequest, MilestoneUpdateResponse,
     MonthlyReportResponse, SprintDashboardResponse, SprintRetrospectiveResponse,
+    EnergyPatternResponse,
 )
 from app.services.sprint_dashboard import (
     generate_sprint_retrospective, get_sprint_dashboard,
@@ -756,7 +757,41 @@ from app.services.achievements import (
     check_consistency_achievements, get_all_achievements, get_uncelebrated_achievements,
 )
 from app.services.bilingual import detect_language, get_language_instruction, update_language_preference
+from app.services.energy_patterns import analyse_energy_patterns
 
+# ── Metrics & Progress ────────────────────────────────────────────────────────
+
+@app.get("/metrics/energy", response_model=EnergyPatternResponse, tags=["Metrics"])
+def get_energy_patterns(
+    user_id: str = Query(default="default"),
+    days: int = Query(default=30, ge=7, le=90),
+    db: Session = Depends(get_db),
+) -> EnergyPatternResponse:
+    """
+    Returns the user's energy stability, Day-of-Week peak/trough, recovery speed,
+    habit correlations, and overall trend for the Progress Dashboard.
+    """
+    result = analyse_energy_patterns(db, user_id=user_id, days=days)
+    return EnergyPatternResponse(**result)
+
+
+@app.get("/metrics/achievements", response_model=list[AchievementOut], tags=["Metrics"])
+def get_user_achievements(
+    user_id: str = Query(default="default"), db: Session = Depends(get_db)
+) -> list[AchievementOut]:
+    """
+    Returns all unlocked milestones and achievements for the Progress Dashboard.
+    """
+    achievements = get_all_achievements(db, user_id=user_id)
+    return [
+        AchievementOut(
+            achievement_id=a.id,
+            title=a.title,
+            achievement_type=a.achievement_type,
+            achievement_date=a.achievement_date,
+            coach_message=a.coach_message,
+        ) for a in achievements
+    ]
 
 # ── 90-Day Sprint Dashboard ───────────────────────────────────────────────────
 

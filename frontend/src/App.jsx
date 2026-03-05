@@ -9,6 +9,7 @@ import Habits from './pages/Habits'
 import Settings from './pages/Settings'
 import Commitments from './pages/Commitments'
 import Wisdom from './pages/Wisdom'
+import Progress from './pages/Progress'
 
 // ── Web Push helpers ──────────────────────────────────────────────────────────
 function urlBase64ToUint8Array(base64String) {
@@ -33,7 +34,7 @@ async function subscribeToPush(uid) {
           existing.endpoint,
           btoa(String.fromCharCode(...new Uint8Array(k))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''),
           btoa(String.fromCharCode(...new Uint8Array(a))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '')
-        ).catch(() => {})
+        ).catch(() => { })
       }
       return existing
     }
@@ -55,7 +56,7 @@ async function subscribeToPush(uid) {
         sub.endpoint,
         btoa(String.fromCharCode(...new Uint8Array(k))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''),
         btoa(String.fromCharCode(...new Uint8Array(a))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '')
-      ).catch(() => {})
+      ).catch(() => { })
     }
     return sub
   } catch (e) {
@@ -158,7 +159,7 @@ export default function App() {
       <div className="app-shell">
         <div className="splash">
           <div style={{ display: 'flex', gap: 10, marginBottom: 16 }}>
-            {['🪔','🎯','🫀','🧬'].map((ic, i) => (
+            {['🪔', '🎯', '🫀', '🧬'].map((ic, i) => (
               <span key={i} style={{
                 fontSize: 22, opacity: 0.6,
                 animation: `pulse 1.6s ease-in-out ${i * 0.25}s infinite`,
@@ -206,6 +207,7 @@ export default function App() {
     settings: Settings,
     commitments: Commitments,
     wisdom: Wisdom,
+    progress: Progress,
   }
   const Page = pages[tab] || Dashboard
 

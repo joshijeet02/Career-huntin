@@ -123,6 +123,12 @@ export const api = {
     corpus: () => get('/wisdom/corpus'),
   },
 
+  // ── Metrics & Progress ────────────────────────────────────────────────────
+  metrics: {
+    energy: (uid, days = 30) => get(`/metrics/energy?user_id=${uid}&days=${days}`),
+    achievements: (uid) => get(`/metrics/achievements?user_id=${uid}`),
+  },
+
   // ── Council ───────────────────────────────────────────────────────────────
   council: {
     ask: (uid, question, history = []) =>
