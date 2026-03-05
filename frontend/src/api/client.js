@@ -28,7 +28,13 @@ async function req(method, path, body = null) {
   const res = await fetch(url, opts)
   if (!res.ok) {
     const err = await res.json().catch(() => ({ detail: res.statusText }))
-    throw new Error(err.detail || 'Request failed')
+    // FastAPI validation errors return detail as an array of {loc, msg, type} objects
+    const detail = err.detail
+    if (Array.isArray(detail)) {
+      const msgs = detail.map(d => d.msg || JSON.stringify(d)).join('; ')
+      throw new Error(msgs || 'Validation error')
+    }
+    throw new Error(typeof detail === 'string' ? detail : 'Request failed')
   }
   return res.json()
 }
@@ -53,8 +59,15 @@ export const api = {
   // ── Check-In ─────────────────────────────────────────────────────────────
   checkin: {
     start: (uid) => get(`/checkin/start?user_id=${uid}`),
-    submit: (uid, energy_level, mood_note, sleep_hours, wins, blockers) =>
-      post('/checkin', { user_id: uid, energy_level, mood_note, sleep_hours, wins, blockers }),
+    // Backend schema expects: energy (not energy_level), stress (required), sleep_quality, mood_note
+    submit: (uid, energy, mood_note, sleep_hours, wins, blockers) =>
+      post('/checkin', {
+        user_id: uid,
+        energy,
+        stress: 5.0,          // form doesn't collect stress; default to neutral (5/10)
+        sleep_quality: sleep_hours ? Math.min(10, sleep_hours) : 7.0,
+        mood_note: [wins, blockers, mood_note].filter(Boolean).join(' | '),
+      }),
   },
 
   // ── Habits ───────────────────────────────────────────────────────────────
