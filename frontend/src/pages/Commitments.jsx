@@ -56,7 +56,7 @@ export default function Commitments({ uid }) {
 
   const overdueItems = open?.overdue || []
   const todayItems = open?.due_today || []
-  const upcomingItems = open?.upcoming || []
+  const upcomingItems = open?.upcoming_7_days || []
   const total = overdueItems.length + todayItems.length + upcomingItems.length
 
   return (

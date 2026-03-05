@@ -98,8 +98,11 @@ export const api = {
   commitments: {
     open: (uid) => get(`/commitments/open?user_id=${uid}`),
     history: (uid) => get(`/commitments/history?user_id=${uid}`),
-    create: (uid, commitment_text, due_date) =>
-      post('/commitments', { user_id: uid, commitment_text, due_date }),
+    create: (uid, commitment_text, due_date) => {
+      // Backend requires due_date as a YYYY-MM-DD string — default to 7 days out if not provided
+      const d = due_date || new Date(Date.now() + 7 * 86400000).toISOString().slice(0, 10)
+      return post('/commitments', { user_id: uid, commitment_text, due_date: d })
+    },
     checkin: (uid, commitment_id, status, user_note) =>
       post(`/commitments/${commitment_id}/check-in`, { user_id: uid, status, user_note }),
   },
