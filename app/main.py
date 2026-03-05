@@ -44,6 +44,8 @@ from app.schemas import (
     WeeklyReadingAssignmentResponse,
     WeeklyReflectionRequest,
     WeeklyReflectionResponse,
+    CouncilSynthesisRequest,
+    CouncilSynthesisResponse,
 )
 from app.services.checkin import process_checkin
 from app.services.coach import generate_coach_response
@@ -430,6 +432,20 @@ def coach_retention_run(db: Session = Depends(get_db)) -> RetentionPurgeResponse
     deleted = conversation_store.purge_expired(db)
     db.commit()
     return RetentionPurgeResponse(deleted_count=deleted)
+
+
+@app.post("/coach/synthesis", response_model=CouncilSynthesisResponse, tags=["Coaching"])
+async def coach_council_synthesis(
+    payload: CouncilSynthesisRequest, db: Session = Depends(get_db)
+) -> CouncilSynthesisResponse:
+    from app.services.synthesis_report import generate_council_synthesis_report
+    from datetime import datetime
+    report = await generate_council_synthesis_report(db, user_id=payload.user_id, days=payload.days_to_analyze)
+    return CouncilSynthesisResponse(
+        markdown_report=report,
+        generated_at=datetime.utcnow(),
+        days_analyzed=payload.days_to_analyze,
+    )
 
 
 # ── Voice Coaching ────────────────────────────────────────────────────────────

@@ -37,10 +37,57 @@ function EnergySparkline({ data, height = 120, color = 'var(--primary)' }) {
     )
 }
 
+function SimpleMarkdown({ text }) {
+    if (!text) return null
+    return (
+        <div style={{ lineHeight: 1.6, color: 'var(--text)', fontSize: 14 }}>
+            {text.split('\n\n').map((paragraph, i) => {
+                if (paragraph.startsWith('## ')) {
+                    return <h3 key={i} style={{ marginTop: 24, marginBottom: 8, fontSize: 18, color: 'var(--gold)' }}>{paragraph.replace('## ', '')}</h3>
+                }
+                if (paragraph.startsWith('# ')) {
+                    return <h2 key={i} style={{ marginTop: 24, marginBottom: 12, fontSize: 22, color: 'var(--gold)' }}>{paragraph.replace('# ', '')}</h2>
+                }
+
+                // Allow simple bolding
+                const parts = paragraph.split(/(\*\*.*?\*\*)/g)
+                return (
+                    <p key={i} style={{ marginBottom: 16 }}>
+                        {parts.map((p, j) =>
+                            p.startsWith('**') && p.endsWith('**')
+                                ? <strong key={j} style={{ color: 'var(--text1)' }}>{p.slice(2, -2)}</strong>
+                                : p
+                        )}
+                    </p>
+                )
+            })}
+        </div>
+    )
+}
+
+
 export default function Progress({ uid }) {
     const [energyData, setEnergyData] = useState(null)
     const [achievements, setAchievements] = useState([])
     const [loading, setLoading] = useState(true)
+
+    const [synthesisReport, setSynthesisReport] = useState(null)
+    const [generatingReport, setGeneratingReport] = useState(false)
+    const [synthesisError, setSynthesisError] = useState(null)
+
+    const handleGenerateSynthesis = async () => {
+        setGeneratingReport(true)
+        setSynthesisError(null)
+        try {
+            const result = await api.coach.synthesis(uid, 30)
+            setSynthesisReport(result.markdown_report)
+        } catch (err) {
+            setSynthesisError("Failed to generate report. Make sure you have at least 5 check-ins.")
+        } finally {
+            setGeneratingReport(false)
+        }
+    }
+
 
     useEffect(() => {
         async function load() {
@@ -178,6 +225,63 @@ export default function Progress({ uid }) {
                 )}
             </div>
 
+            {/* Premium Synthesis feature */}
+            <div className="mb-4">
+                <div className="label mb-3">Council Synthesis (Premium)</div>
+                <div className="card" style={{ background: 'var(--bg2)', border: '1px solid var(--gold-border)' }}>
+                    <div style={{ marginBottom: 16, fontSize: 14, color: 'var(--text2)', lineHeight: 1.5 }}>
+                        Generate a comprehensive 30-day coaching report. The Council will analyze your check-ins, habits, and reflections to provide a deep, unified diagnosis of your current trajectory.
+                    </div>
+
+                    {!synthesisReport ? (
+                        <button
+                            onClick={handleGenerateSynthesis}
+                            disabled={generatingReport}
+                            style={{
+                                background: 'linear-gradient(135deg, #c9a84c, #a87e2e)',
+                                color: '#07080d',
+                                border: 'none',
+                                padding: '12px 16px',
+                                borderRadius: 12,
+                                fontWeight: 700,
+                                width: '100%',
+                                cursor: 'pointer'
+                            }}
+                        >
+                            {generatingReport ? 'The Council is Synthesizing (Wait 20s)...' : 'Generate 30-Day Synthesis Report'}
+                        </button>
+                    ) : (
+                        <div>
+                            <div style={{ background: 'var(--bg1)', padding: 16, borderRadius: 12, border: '1px solid var(--border)', marginBottom: 16, maxHeight: 400, overflowY: 'auto' }}>
+                                <SimpleMarkdown text={synthesisReport} />
+                            </div>
+                            <button
+                                onClick={() => window.print()}
+                                style={{
+                                    background: 'var(--bg3)',
+                                    color: 'var(--text)',
+                                    border: '1px solid var(--border)',
+                                    padding: '12px 16px',
+                                    borderRadius: 12,
+                                    fontWeight: 600,
+                                    width: '100%',
+                                    cursor: 'pointer'
+                                }}
+                            >
+                                Export as PDF
+                            </button>
+                        </div>
+                    )}
+
+                    {synthesisError && (
+                        <div style={{ color: '#ef4444', marginTop: 12, fontSize: 13, textAlign: 'center' }}>
+                            {synthesisError}
+                        </div>
+                    )}
+                </div>
+            </div>
+
         </div>
     )
 }
+

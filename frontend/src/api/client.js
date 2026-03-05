@@ -92,6 +92,8 @@ export const api = {
       post(`/coach/first-read/delivered?user_id=${uid}`, {}),
     trialClosing: (uid) => get(`/coach/trial-closing?user_id=${uid}`),
     memorySummary: (uid) => get(`/coach/memory-summary?user_id=${uid}`),
+    synthesis: (uid, days = 30) =>
+      post(`/coach/synthesis`, { user_id: uid, days_to_analyze: days }),
   },
 
   // ── Commitments ───────────────────────────────────────────────────────────

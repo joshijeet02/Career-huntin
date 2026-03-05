@@ -139,6 +139,17 @@ class CoachConversationMessageResponse(BaseModel):
     conversation_id: int
 
 
+class CouncilSynthesisRequest(BaseModel):
+    user_id: str = "default"
+    days_to_analyze: int = 30
+
+
+class CouncilSynthesisResponse(BaseModel):
+    markdown_report: str
+    generated_at: datetime
+    days_analyzed: int
+
+
 class CoachConversationHistoryItem(BaseModel):
     id: int
     user_id: str
