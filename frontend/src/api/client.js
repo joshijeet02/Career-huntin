@@ -18,6 +18,13 @@ export function getUserId() {
   return uid
 }
 
+export function setUserId(uid) {
+  if (uid && uid.startsWith('user_')) {
+    localStorage.setItem('coach_user_id', uid)
+    window.location.reload() // Reload to re-fetch all data with new UID
+  }
+}
+
 async function req(method, path, body = null) {
   const url = `${BASE}${path}`
   const opts = {

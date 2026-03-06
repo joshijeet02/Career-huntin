@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { api, getUserId } from '../api/client'
+import { api, getUserId, setUserId } from '../api/client'
 
 function urlBase64ToUint8Array(base64String) {
   const padding = '='.repeat((4 - (base64String.length % 4)) % 4)
@@ -30,7 +30,7 @@ export default function Settings({ uid }) {
 
   useEffect(() => {
     getCurrentPushState().then(setPushState)
-    api.profile.get(uid).then(setProfile).catch(() => {})
+    api.profile.get(uid).then(setProfile).catch(() => { })
   }, [uid])
 
   const enableNotifications = async () => {
@@ -75,7 +75,7 @@ export default function Settings({ uid }) {
       const reg = await navigator.serviceWorker.ready
       const sub = await reg.pushManager.getSubscription()
       if (sub) {
-        await api.push.unsubscribe(sub.endpoint).catch(() => {})
+        await api.push.unsubscribe(sub.endpoint).catch(() => { })
         await sub.unsubscribe()
       }
       setPushState('not-asked')
@@ -174,6 +174,61 @@ export default function Settings({ uid }) {
             {msg}
           </div>
         )}
+      </div>
+
+      {/* Profile Recovery */}
+      <div className="card mb-4">
+        <div className="label" style={{ marginBottom: 4 }}>Profile Recovery</div>
+        <div className="hint mb-4" style={{ lineHeight: 1.5 }}>
+          Your profile is linked to this unique ID. Save it to restore your account on another device.
+        </div>
+
+        <div style={{
+          background: 'var(--bg1)',
+          padding: '12px',
+          borderRadius: 10,
+          fontSize: 13,
+          fontFamily: 'monospace',
+          marginBottom: 16,
+          border: '1px solid var(--border)',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center'
+        }}>
+          <span style={{ color: 'var(--gold)' }}>{uid}</span>
+          <button
+            style={{ background: 'none', border: 'none', color: 'var(--text3)', cursor: 'pointer', fontSize: 12 }}
+            onClick={() => {
+              navigator.clipboard.writeText(uid)
+              alert('Copied to clipboard!')
+            }}
+          >
+            Copy
+          </button>
+        </div>
+
+        <div style={{ display: 'flex', gap: 10 }}>
+          <input
+            className="input"
+            style={{ flex: 1, height: 44, margin: 0, fontSize: 13 }}
+            placeholder="Enter Profile ID..."
+            id="recovery-id"
+          />
+          <button
+            className="btn btn-secondary"
+            style={{ width: 'auto', padding: '0 16px', height: 44 }}
+            onClick={() => {
+              const val = document.getElementById('recovery-id').value.trim()
+              if (val.startsWith('user_')) {
+                setUserId(val)
+              } else {
+                alert('Invalid Profile ID. Must start with "user_"')
+              }
+            }}
+          >
+            Recover
+          </button>
+        </div>
       </div>
 
       {/* About */}

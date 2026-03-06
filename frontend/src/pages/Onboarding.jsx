@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { api } from '../api/client'
+import { api, setUserId } from '../api/client'
 
 const TOTAL_ESTIMATE = 12
 
@@ -19,7 +19,8 @@ export default function Onboarding({ uid, onComplete }) {
       const q = await api.onboarding.question(uid)
       if (q.complete) { onComplete(); return }
       setQuestion(q)
-      setStep(s => s + 1)
+      if (step === 0) setStep(1)
+      else setStep(s => s + 1)
     } catch (e) {
       setError('Could not load question. Check your connection.')
     } finally {
@@ -56,6 +57,34 @@ export default function Onboarding({ uid, onComplete }) {
             <div className="hint">Let's build your profile</div>
           </div>
         </div>
+
+        {step === 1 && (
+          <div className="card" style={{ marginBottom: 24, padding: '16px' }}>
+            <div style={{ fontSize: 13, color: 'var(--text2)', marginBottom: 12 }}>
+              Already have a profile ID?
+            </div>
+            <div style={{ display: 'flex', gap: 10 }}>
+              <input
+                className="input"
+                style={{ flex: 1, margin: 0, height: 40, fontSize: 12 }}
+                placeholder="user_..."
+                id="onboard-recover"
+              />
+              <button
+                className="btn btn-secondary"
+                style={{ width: 'auto', padding: '0 12px', height: 40, fontSize: 12 }}
+                onClick={() => {
+                  const val = document.getElementById('onboard-recover').value.trim()
+                  if (val.startsWith('user_')) setUserId(val)
+                  else alert('Invalid ID')
+                }}
+              >
+                Recover
+              </button>
+            </div>
+          </div>
+        )}
+
         <div className="progress-bar">
           <div className="progress-fill" style={{ width: `${pct}%` }} />
         </div>
