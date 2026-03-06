@@ -3,7 +3,7 @@ export default function BottomNav({ active, onChange }) {
     { id: 'dashboard', label: 'Home', icon: HomeIcon },
     { id: 'checkin', label: 'Check-in', icon: HeartIcon },
     { id: 'coach', label: 'Council', icon: CouncilIcon },
-    { id: 'commitments', label: 'Goals', icon: FlagIcon },
+    { id: 'goals', label: 'Missions', icon: FlagIcon },
     { id: 'progress', label: 'Progress', icon: TrendIcon },
     { id: 'wisdom', label: 'Wisdom', icon: LotusIcon },
   ]

@@ -377,6 +377,33 @@ class MilestoneUpdateResponse(BaseModel):
     coach_response: str
 
 
+# ── Big Goals ─────────────────────────────────────────────────────────────────
+
+class BigGoalCreateRequest(BaseModel):
+    user_id: str = "default"
+    title: str
+    description: str = ""
+    target_date: str | None = None # YYYY-MM-DD
+    category: str = "growth"
+
+class BigGoalOut(BaseModel):
+    id: int
+    user_id: str
+    title: str
+    description: str
+    target_date: str | None
+    status: str
+    category: str
+    progress_pct: int
+    vision_statement: str = ""
+
+class BigGoalUpdateResponse(BaseModel):
+    goal_id: int
+    status: str
+    progress_pct: int
+    coach_response: str
+
+
 class SprintRetrospectiveResponse(BaseModel):
     retrospective_text: str
     goals_summary: dict[str, Any]
@@ -646,6 +673,8 @@ class CommitmentCreateRequest(BaseModel):
     due_date: str              # YYYY-MM-DD
     source: str = "direct"
     source_id: int | None = None
+    parent_goal_id: int | None = None
+    parent_milestone_id: int | None = None
 
 
 class CommitmentCreateResponse(BaseModel):
@@ -678,6 +707,8 @@ class CommitmentItem(BaseModel):
     due_date: str
     source: str
     days_overdue: int = 0
+    parent_goal_id: int | None = None
+    parent_milestone_id: int | None = None
 
 
 class OpenCommitmentsResponse(BaseModel):

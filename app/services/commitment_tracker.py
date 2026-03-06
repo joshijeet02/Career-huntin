@@ -53,6 +53,8 @@ def create_commitment(
     due_date: str,                  # YYYY-MM-DD
     source: str = "direct",
     source_id: int | None = None,
+    parent_goal_id: int | None = None,
+    parent_milestone_id: int | None = None,
 ) -> dict:
     """
     Create a new commitment. Returns the commitment with a coach acknowledgement.
@@ -96,6 +98,8 @@ def create_commitment(
         "due_date": c.due_date,
         "status": c.status,
         "source": c.source,
+        "parent_goal_id": c.parent_goal_id,
+        "parent_milestone_id": c.parent_milestone_id,
         "coach_acknowledgement": coach_ack,
     }
 

@@ -168,6 +168,7 @@ class GoalMilestone(Base, TimestampMixin):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
     user_id: Mapped[str] = mapped_column(String(255), nullable=False, index=True)
+    parent_goal_id: Mapped[int | None] = mapped_column(Integer, nullable=True, index=True) # ID from big_goals
     goal_index: Mapped[int] = mapped_column(Integer, nullable=False)          # 0, 1, 2 (up to 3 goals)
     goal_text: Mapped[str] = mapped_column(Text, nullable=False)
     goal_track: Mapped[str] = mapped_column(String(64), default="leadership")  # leadership / relationships / energy
@@ -178,6 +179,24 @@ class GoalMilestone(Base, TimestampMixin):
     user_update: Mapped[str] = mapped_column(Text, default="")                 # what user reported
     coach_response: Mapped[str] = mapped_column(Text, default="")
     progress_pct: Mapped[int] = mapped_column(Integer, default=0)              # 0-100
+
+
+class BigGoal(Base, TimestampMixin):
+    """
+    High-level, strategic goals for the user's 90-day sprint or long-term growth.
+    Contains milestones and commitments.
+    """
+    __tablename__ = "big_goals"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    user_id: Mapped[str] = mapped_column(String(255), nullable=False, index=True)
+    title: Mapped[str] = mapped_column(String(512), nullable=False)
+    description: Mapped[str] = mapped_column(Text, default="")
+    target_date: Mapped[str] = mapped_column(String(10), nullable=True)     # YYYY-MM-DD
+    status: Mapped[str] = mapped_column(String(32), default="active")       # active / completed / archived / abandoned
+    category: Mapped[str] = mapped_column(String(64), default="growth")     # leadership / energy / business / personal
+    progress_pct: Mapped[int] = mapped_column(Integer, default=0)
+    vision_statement: Mapped[str] = mapped_column(Text, default="")         # AI-refined mission for this goal
 
 
 class DecisionLog(Base, TimestampMixin):
@@ -348,6 +367,8 @@ class Commitment(Base, TimestampMixin):
     due_date: Mapped[str] = mapped_column(String(10), nullable=False, index=True)  # YYYY-MM-DD
     source: Mapped[str] = mapped_column(String(64), default="direct")            # direct / evening_review / reflection / conflict_prep / decision / morning_brief
     source_id: Mapped[int | None] = mapped_column(Integer, nullable=True)        # FK to the originating record (optional)
+    parent_goal_id: Mapped[int | None] = mapped_column(Integer, nullable=True, index=True) # ID from big_goals
+    parent_milestone_id: Mapped[int | None] = mapped_column(Integer, nullable=True, index=True) # ID from goal_milestones
     status: Mapped[str] = mapped_column(String(32), default="open", index=True)  # open / kept / missed / partial / deferred
     user_completion_note: Mapped[str] = mapped_column(Text, default="")          # what the user reported
     coach_followup_message: Mapped[str] = mapped_column(Text, default="")        # coach's response when checked

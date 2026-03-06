@@ -105,47 +105,66 @@ export const api = {
       post(`/coach/synthesis`, { user_id: uid, days_to_analyze: days }),
   },
 
-  // ── Commitments ───────────────────────────────────────────────────────────
-  commitments: {
-    open: (uid) => get(`/commitments/open?user_id=${uid}`),
-    history: (uid) => get(`/commitments/history?user_id=${uid}`),
-    create: (uid, commitment_text, due_date) => {
-      // Backend requires due_date as a YYYY-MM-DD string — default to 7 days out if not provided
-      const d = due_date || new Date(Date.now() + 7 * 86400000).toISOString().slice(0, 10)
-      return post('/commitments', { user_id: uid, commitment_text, due_date: d })
-    },
-    checkin: (uid, commitment_id, status, user_note) =>
-      post(`/commitments/${commitment_id}/check-in`, { user_id: uid, status, user_note }),
+},
+
+  // ── Goals ─────────────────────────────────────────────────────────────────
+  goals: {
+    list: (uid) => get(`/goals?user_id=${uid}`),
+    create: (uid, title, description, target_date, category) =>
+      post('/goals', { user_id: uid, title, description, target_date, category }),
+    refine: (uid, goal_id, vision) =>
+      post(`/ goals / ${ goal_id }/refine?user_id=${uid}&vision=${encodeURIComponent(vision)}`),
+details: (uid, goal_id) => get(`/goals/${goal_id}/details?user_id=${uid}`),
+  syncProgress: (uid, goal_id) => post(`/goals/${goal_id}/sync-progress?user_id=${uid}`),
   },
 
-  // ── Push Notifications ───────────────────────────────────────────────────
-  push: {
-    getVapidKey: () => get('/push/vapid-public-key'),
+// ── Commitments ───────────────────────────────────────────────────────────
+commitments: {
+  open: (uid) => get(`/commitments/open?user_id=${uid}`),
+    history: (uid) => get(`/commitments/history?user_id=${uid}`),
+      create: (uid, commitment_text, due_date, parent_goal_id = null, parent_milestone_id = null) => {
+        // Backend requires due_date as a YYYY-MM-DD string — default to 7 days out if not provided
+        const d = due_date || new Date(Date.now() + 7 * 86400000).toISOString().slice(0, 10)
+        return post('/commitments', {
+          user_id: uid,
+          commitment_text,
+          due_date: d,
+          parent_goal_id,
+          parent_milestone_id
+        })
+      },
+        checkin: (uid, commitment_id, status, user_note) =>
+          post(`/commitments/${commitment_id}/check-in`, { user_id: uid, status, user_note }),
+  },
+
+// ── Push Notifications ───────────────────────────────────────────────────
+push: {
+  getVapidKey: () => get('/push/vapid-public-key'),
     subscribe: (uid, endpoint, p256dh, auth) =>
       post('/push/subscribe', { user_id: uid, endpoint, p256dh, auth, user_agent: navigator.userAgent }),
-    unsubscribe: (endpoint) =>
-      post('/push/unsubscribe', { endpoint }),
+      unsubscribe: (endpoint) =>
+        post('/push/unsubscribe', { endpoint }),
   },
 
-  // ── Spiritual Wisdom ──────────────────────────────────────────────────────
-  wisdom: {
-    daily: (uid) => get(`/wisdom/daily?user_id=${uid}`),
+// ── Spiritual Wisdom ──────────────────────────────────────────────────────
+wisdom: {
+  daily: (uid) => get(`/wisdom/daily?user_id=${uid}`),
     ask: (uid, question) => post('/wisdom/ask', { user_id: uid, question }),
-    corpus: () => get('/wisdom/corpus'),
+      corpus: () => get('/wisdom/corpus'),
   },
 
-  // ── Metrics & Progress ────────────────────────────────────────────────────
-  metrics: {
-    energy: (uid, days = 30) => get(`/metrics/energy?user_id=${uid}&days=${days}`),
+// ── Metrics & Progress ────────────────────────────────────────────────────
+metrics: {
+  energy: (uid, days = 30) => get(`/metrics/energy?user_id=${uid}&days=${days}`),
     achievements: (uid) => get(`/metrics/achievements?user_id=${uid}`),
   },
 
-  // ── Council ───────────────────────────────────────────────────────────────
-  council: {
-    ask: (uid, question, history = []) =>
-      post('/council/ask', { user_id: uid, question, history }),
+// ── Council ───────────────────────────────────────────────────────────────
+council: {
+  ask: (uid, question, history = []) =>
+    post('/council/ask', { user_id: uid, question, history }),
   },
 
-  // ── Health ────────────────────────────────────────────────────────────────
-  health: () => get('/healthz'),
+// ── Health ────────────────────────────────────────────────────────────────
+health: () => get('/healthz'),
 }

@@ -7,7 +7,7 @@ import CheckIn from './pages/CheckIn'
 import Coach from './pages/Coach'
 import Habits from './pages/Habits'
 import Settings from './pages/Settings'
-import Commitments from './pages/Commitments'
+import Goals from './pages/Goals'
 import Wisdom from './pages/Wisdom'
 import Progress from './pages/Progress'
 
@@ -205,18 +205,18 @@ export default function App() {
     coach: Coach,
     habits: Habits,
     settings: Settings,
-    commitments: Commitments,
+    goals: Goals,
     wisdom: Wisdom,
     progress: Progress,
   }
-  const Page = pages[tab] || Dashboard
+  const Page = pages[page] || Dashboard
 
   return (
     <div className="app-shell">
       <div className="page">
-        <Page uid={uid} onTabChange={setTab} />
+        <Page uid={uid} onTabChange={setPage} />
       </div>
-      <BottomNav active={tab} onChange={setTab} />
+      <BottomNav active={page} onNavigate={setPage} />
       {showNotifBanner && (
         <NotifBanner uid={uid} onDismiss={dismissNotifBanner} />
       )}

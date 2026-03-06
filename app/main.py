@@ -1284,6 +1284,99 @@ def calendar_settings(
     return CalendarSettingsResponse(**result)
 
 
+# ── V6: Goal Management ────────────────────────────────────────────────────────
+from app.services.goal_management import (
+    create_big_goal,
+    get_user_goals,
+    get_goal_details,
+    refine_goal_with_coach,
+    update_goal_progress,
+)
+from app.schemas import (
+    BigGoalCreateRequest,
+    BigGoalOut,
+    BigGoalUpdateResponse,
+)
+
+@app.post("/goals", response_model=BigGoalOut, tags=["Goals"])
+def goal_create(payload: BigGoalCreateRequest, db: Session = Depends(get_db)) -> BigGoalOut:
+    """Create a high-level strategic goal."""
+    goal = create_big_goal(
+        db,
+        user_id=payload.user_id,
+        title=payload.title,
+        description=payload.description,
+        target_date=payload.target_date,
+        category=payload.category,
+    )
+    return BigGoalOut(
+        id=goal.id,
+        user_id=goal.user_id,
+        title=goal.title,
+        description=goal.description,
+        target_date=goal.target_date,
+        status=goal.status,
+        category=goal.category,
+        progress_pct=goal.progress_pct,
+        vision_statement=goal.vision_statement,
+    )
+
+@app.get("/goals", response_model=list[BigGoalOut], tags=["Goals"])
+def goals_list(user_id: str = Query(default="default"), db: Session = Depends(get_db)) -> list[BigGoalOut]:
+    """List all goals for a user."""
+    goals = get_user_goals(db, user_id)
+    return [
+        BigGoalOut(
+            id=g.id,
+            user_id=g.user_id,
+            title=g.title,
+            description=g.description,
+            target_date=g.target_date,
+            status=g.status,
+            category=g.category,
+            progress_pct=g.progress_pct,
+            vision_statement=g.vision_statement,
+        ) for g in goals
+    ]
+
+@app.post("/goals/{goal_id}/refine", tags=["Goals"])
+async def goal_refine(
+    goal_id: int,
+    user_id: str = Query(default="default"),
+    vision: str = Query(..., description="The user's raw vision statement"),
+    db: Session = Depends(get_db)
+) -> dict:
+    """The Council Alignment Flow: AI refines the goal into a SMART vision."""
+    refined = await refine_goal_with_coach(db, user_id, goal_id, vision)
+    return {"refined_vision": refined}
+
+@app.get("/goals/{goal_id}/details", tags=["Goals"])
+def goal_details(
+    goal_id: int,
+    user_id: str = Query(default="default"),
+    db: Session = Depends(get_db)
+) -> dict:
+    """Get full hierarchy: Goal -> Milestones -> Commitments."""
+    # We use dict here for flexibility in the complex nested response
+    return get_goal_details(db, goal_id, user_id)
+
+@app.post("/goals/{goal_id}/sync-progress", response_model=BigGoalUpdateResponse, tags=["Goals"])
+def goal_sync_progress(
+    goal_id: int,
+    user_id: str = Query(default="default"),
+    db: Session = Depends(get_db)
+) -> BigGoalUpdateResponse:
+    """Recalculate progress based on all child items."""
+    progress = update_goal_progress(db, goal_id, user_id)
+    goal = db.query(BigGoal).filter_by(id=goal_id, user_id=user_id).first()
+    return BigGoalUpdateResponse(
+        goal_id=goal_id,
+        status=goal.status,
+        progress_pct=progress,
+        coach_response=f"Progress synchronized. You are {progress}% of the way to your vision."
+    )
+
+
 # ── V5: Commitment Tracker ────────────────────────────────────────────────────
 from app.services.commitment_tracker import (
     check_commitment,
