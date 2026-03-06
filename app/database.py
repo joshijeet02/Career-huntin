@@ -4,7 +4,9 @@ import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session, declarative_base, sessionmaker
 
-DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./jobs_automation.db")
+DATABASE_URL = os.getenv("DATABASE_URL")
+if not DATABASE_URL:
+    DATABASE_URL = "sqlite:///./jobs_automation.db"
 
 # Render (and Heroku) give postgres:// but SQLAlchemy 2.x requires postgresql://
 if DATABASE_URL.startswith("postgres://"):
