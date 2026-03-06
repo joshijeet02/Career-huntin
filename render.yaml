@@ -8,4 +8,6 @@ services:
     healthCheckPath: /healthz
     envVars:
       - key: DATABASE_URL
-        value: sqlite:///./jobs_automation.db
+        # Replace with your Supabase Connection String (Transaction Pooler)
+        # e.g. postgresql://postgres.xxxx:[YOUR-PASSWORD]@aws-0-us-east-1.pooler.supabase.com:6543/postgres?pgbouncer=true
+        value: ""
